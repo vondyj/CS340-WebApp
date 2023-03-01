@@ -12,21 +12,26 @@ body {
   font-family: 'Poppins', sans-serif;
   background-color: #CC9966;
   color: #663300;
-  text-align: center;
-    margin: 0;
+  text-align: left;
+  margin: 0 0 0 0;
   }
   
 h1 {
   font-family: 'Poppins', sans-serif;
   color: #663300;
+  padding: 2%;
+  text-align: center;
   }
+
+h2 {
+  padding: 2%;
+}
 
 p {
   font-family: 'Poppins', sans-serif;
   padding: 5px;
   max-width: 750px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 2%;
 }
 
 nav {
@@ -59,6 +64,7 @@ li a:hover {
   color: #663300;
 }
 
+
 table, td, th {
     border: 1px solid;
     padding: 10px;
@@ -70,8 +76,7 @@ table {
     border-collapse: collapse;
     padding: 25px;
     background-color: #FBFAF5;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 2%;
     text-align: left;
 }
 
@@ -84,4 +89,10 @@ footer {
   background: #FBFAF5;
   padding: 5px;
   margin-top: 2%;
+}
+
+.footer {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
