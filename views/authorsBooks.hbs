@@ -1,0 +1,26 @@
+<h2>authorsBooks</h2>
+
+<table>
+
+    <thead>
+
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {{#each data}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.book}}</td>
+            <td>{{this.author}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

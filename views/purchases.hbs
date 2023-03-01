@@ -1,0 +1,32 @@
+<h2>purchases</h2>
+
+<p>Purchases sorted by date.</p>
+<table>
+
+    <thead>
+
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {{#each data}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{moment this.date format="LL"}}</td>
+            <td>{{this.customer}}</td>
+            <td>{{this.staff}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.copies}}</td>
+            <td>{{this.total}}</td>
+        </tr>
+        {{/each}}
+        
+    </tbody>
+</table>

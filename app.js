@@ -1,0 +1,142 @@
+/*
+    SETUP
+*/
+
+// Express
+const express = require('express');   // We are using the express library for the web server
+const app     = express();            // We need to instantiate an express object to interact with the server in our code
+
+// app.js - SETUP section
+app.use(express.json())
+app.use(express.urlencoded({extended: true}))
+app.use(express.static('public'))
+
+PORT        = 2369;                 
+
+// app.js
+const { engine } = require('express-handlebars');
+const exphbs = require('express-handlebars');     // Import express-handlebars
+const helpers = require('handlebars-helpers')();
+
+app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
+app.set('view engine', '.hbs');                 // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
+
+
+// Database
+const db = require('./database/db-connector')
+
+/*
+    ROUTES
+*/
+
+// app.js
+
+app.get('/', function(req, res)
+    {
+        res.render('index')
+    }
+);
+
+app.get('/authors', function(req, res)
+    {  
+        let query1 = "SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, IFNULL(CONCAT(' ', authors.middleName), '')) AS author FROM authors ORDER BY authors.lastName;"
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+
+            res.render('authors', {data: rows});                
+        })                                                    
+    });                                                        
+
+app.post('/add-author-form', function(req, res){
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    query1 = `INSERT INTO authors (firstName, middleName, lastName) VALUES ('${data['input-firstName']}', '${data['input-middleName']}', '${data['input-lastName']}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM bsg_people and
+        // presents it on the screen
+        else
+        {
+            res.redirect('/authors');
+        }
+    })
+})    
+
+
+
+app.get('/books', function(req, res)
+    {  
+        let query1 = "SELECT bookId AS id, title, stockQuantity AS quantity, unitPrice AS price FROM books;";               // Define our query
+
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+
+            res.render('books', {data: rows});                  
+        })                                                      
+    });                                                        
+    
+app.get('/customers', function(req, res)
+    {  
+        let query1 = "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS name, customers.email AS email FROM customers ORDER BY customers.lastName ASC;"           
+
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+
+            res.render('customers', {data: rows});                  
+        })                                                      
+    }); 
+
+app.get('/purchases', function(req, res)
+    {  
+        let query1 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName,', ', customers.firstName) AS customer, CONCAT(staff.lastName,', ', staff.firstName) AS 'staff', books.title, purchaseBookDetails.quantity AS 'copies', books.unitPrice * purchaseBookDetails.quantity AS total FROM purchases LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId JOIN customers ON purchases.FK_customers_customerId = customers.customerId JOIN purchaseBookDetails ON purchases.purchaseId = purchaseBookDetails.FK_purchases_purchaseId JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId ORDER BY purchases.purchaseDate ASC;"
+
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+
+            res.render('purchases', {data: rows});                  
+        })         
+
+    }); 
+
+app.get('/staff', function(req, res)
+    {  
+        let query1 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS name, staff.email AS email FROM staff ORDER BY staff.lastName ASC;"
+
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+
+            res.render('staff', {data: rows});                  
+        })                                                      
+    }); 
+
+app.get('/authorsBooks', function(req, res)
+    {  
+        let query1 = "SELECT authorBookId AS id, FK_books_bookId AS book, FK_authors_authorId AS author FROM authorsBooks;";               // Define our query
+
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+
+            res.render('authorsBooks', {data: rows});                  
+        })                                                      
+    }); 
+
+app.get('/purchaseBookDetails', function(req, res)
+    {  
+        let query1 = "SELECT detailId AS id, quantity, FK_books_bookId AS book, FK_purchases_purchaseId AS purchase FROM purchaseBookDetails;";               // Define our query
+
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+
+            res.render('purchaseBookDetails', {data: rows});                  
+        })                                                      
+    }); 
+
+/*
+    LISTENER
+*/
+app.listen(PORT, function(){            // This is the basic syntax for what is called the 'listener' which receives incoming requests on the specified PORT.
+    console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.')
+});

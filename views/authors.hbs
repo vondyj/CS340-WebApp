@@ -1,0 +1,52 @@
+
+<h2>authors</h2>
+
+<p>Authors sorted by last name.</p>
+
+<table>
+
+    <thead>
+
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {{#each data}}
+        <tr>
+            <td>{{this.id}}</td>
+            <td>{{this.author}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+    
+</table>
+
+<br>
+
+<h2>Add a new author using the form below.</h2>
+<p>To add a new author, please enter their information below and click Submit!</p>
+
+<form id="add-author-form" method="POST" action="/add-author-form">
+
+    <label for="input-firstName">First Name: </label>
+    <input type="text" name="input-firstName" id="input-firstName">
+    <br>
+
+    <label for="input-middleName">Middle Name: </label>
+    <input type="text" name="input-middleName" id="input-middleName">
+    <br>
+
+    <label for="input-lastName">Last Name: </label>
+    <input type="text" name="input-lastName" id="input-lastName">
+    <br>
+    
+    <input type="submit">
+
+</form>
