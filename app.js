@@ -16,7 +16,7 @@ PORT        = 2369;
 // app.js
 const { engine } = require('express-handlebars');
 const exphbs = require('express-handlebars');     // Import express-handlebars
-const helpers = require('handlebars-helpers')();
+const helpers = require('handlebars-helpers')();  // Import handlebars-helpers
 
 app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
 app.set('view engine', '.hbs');                 // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
@@ -29,13 +29,16 @@ const db = require('./database/db-connector')
     ROUTES
 */
 
-// app.js
+
+// homepage 
 
 app.get('/', function(req, res)
     {
         res.render('index')
     }
 );
+
+// authors
 
 app.get('/authors', function(req, res)
     {  
@@ -71,7 +74,7 @@ app.post('/add-author-form', function(req, res){
     })
 })    
 
-
+// books
 
 app.get('/books', function(req, res)
     {  
@@ -82,7 +85,9 @@ app.get('/books', function(req, res)
             res.render('books', {data: rows});                  
         })                                                      
     });                                                        
-    
+
+// customers
+
 app.get('/customers', function(req, res)
     {  
         let query1 = "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS name, customers.email AS email FROM customers ORDER BY customers.lastName ASC;"           
@@ -92,6 +97,8 @@ app.get('/customers', function(req, res)
             res.render('customers', {data: rows});                  
         })                                                      
     }); 
+
+// purchases
 
 app.get('/purchases', function(req, res)
     {  
@@ -104,6 +111,8 @@ app.get('/purchases', function(req, res)
 
     }); 
 
+// staff
+
 app.get('/staff', function(req, res)
     {  
         let query1 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS name, staff.email AS email FROM staff ORDER BY staff.lastName ASC;"
@@ -113,6 +122,8 @@ app.get('/staff', function(req, res)
             res.render('staff', {data: rows});                  
         })                                                      
     }); 
+
+// authorsBooks
 
 app.get('/authorsBooks', function(req, res)
     {  
@@ -124,6 +135,8 @@ app.get('/authorsBooks', function(req, res)
         })                                                      
     }); 
 
+// purchaseBookDetails   
+    
 app.get('/purchaseBookDetails', function(req, res)
     {  
         let query1 = "SELECT detailId AS id, quantity, FK_books_bookId AS book, FK_purchases_purchaseId AS purchase FROM purchaseBookDetails;";               // Define our query
@@ -134,9 +147,11 @@ app.get('/purchaseBookDetails', function(req, res)
         })                                                      
     }); 
 
+
 /*
     LISTENER
 */
-app.listen(PORT, function(){            // This is the basic syntax for what is called the 'listener' which receives incoming requests on the specified PORT.
+
+app.listen(PORT, function(){             
     console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.')
 });
