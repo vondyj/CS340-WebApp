@@ -17,5 +17,13 @@
     "handlebars-helpers": "^0.10.0",
     "mysql": "^2.18.1"
   },
-  "description": ""
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vondyj/CS340-WebApp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vondyj/CS340-WebApp/issues"
+  },
+  "homepage": "https://github.com/vondyj/CS340-WebApp#readme"
 }

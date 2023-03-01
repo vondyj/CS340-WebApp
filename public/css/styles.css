@@ -1,15 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap');
+
+
+main {
+  margin: 0 0 0 0;
+  width: 100%;
+  border: hidden;
+  min-height: calc(100vh - 100px);
+}
+
 body {
-    background-color: #CC9966;
-    color: #663300;
-    text-align: center;
+  font-family: 'Poppins', sans-serif;
+  background-color: #CC9966;
+  color: #663300;
+  text-align: center;
     margin: 0;
   }
   
 h1 {
-    color: #663300;
+  font-family: 'Poppins', sans-serif;
+  color: #663300;
   }
 
 p {
+  font-family: 'Poppins', sans-serif;
   padding: 5px;
   max-width: 750px;
   margin-left: auto;
@@ -24,7 +37,6 @@ nav {
 
 ul {
   list-style-type: none;
-  margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: #663300;
@@ -46,11 +58,12 @@ li a:hover {
   background-color: #FBFAF5;
   color: #663300;
 }
-  
+
 table, td, th {
     border: 1px solid;
     padding: 10px;
   }
+
 
 table {
     border: 2.5px solid;
@@ -67,7 +80,8 @@ form input, label {
 }
 
 footer {
+  font-family: 'Poppins', sans-serif;
   background: #FBFAF5;
   padding: 5px;
-  margin-top: 4%;
+  margin-top: 2%;
 }
