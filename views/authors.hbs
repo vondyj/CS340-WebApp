@@ -3,7 +3,7 @@
 
 <p>Authors sorted by last name.</p>
 
-<table>
+<table id="author-table">
 
     <thead>
 
@@ -13,6 +13,7 @@
                 {{@key}}
             </th>
             {{/each}}
+            <th>delete</th>
         </tr>
     </thead>
 
@@ -22,11 +23,14 @@
         <tr>
             <td>{{this.id}}</td>
             <td>{{this.author}}</td>
+            <td><button onclick="deleteAuthor({{this.id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
     
 </table>
+
+<script src="./js/delete_author.js"></script>
 
 <br>
 
@@ -48,5 +52,20 @@
     <br>
     
     <input type="submit">
+
+</form>
+
+<br>
+
+<h2>Search for an author by last name using the form below.</h2>
+<p>Search by last name using the field below. Partial last names are OK too!</p>
+
+<form id="search-author-html" method='GET' action='/authors'>
+
+    <label for="input-lastName">Search by Last Name: </label>
+    <input type="text" name="lastName" id="input-lastName-html-search">
+    
+    <input type="submit">
+    <a href='/'><button>Reset</button></a>
 
 </form>

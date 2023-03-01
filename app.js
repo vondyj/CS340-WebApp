@@ -42,7 +42,21 @@ app.get('/', function(req, res)
 
 app.get('/authors', function(req, res)
     {  
-        let query1 = "SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, IFNULL(CONCAT(' ', authors.middleName), '')) AS author FROM authors ORDER BY authors.lastName;"
+        // Declare Query 1
+        let query1;
+
+        // If there is no query string, we just perform a basic SELECT
+        if (req.query.lastName === undefined)
+        {
+        query1 = "SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, IFNULL(CONCAT(' ', authors.middleName), '')) AS author FROM authors ORDER BY authors.lastName;"
+        }
+
+        // If there is a query string, we assume this is a search, and return desired results
+        else
+        {
+        query1 = `SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, IFNULL(CONCAT(' ', authors.middleName), '')) AS author FROM authors WHERE authors.lastName LIKE "${req.query.lastName}%" ORDER BY authors.lastName;`
+        
+        }   
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
             res.render('authors', {data: rows});                
@@ -73,6 +87,25 @@ app.post('/add-author-form', function(req, res){
         }
     })
 })    
+
+app.delete('/delete-author-ajax/', function(req,res,next){
+    let data = req.body;
+    let authorId = parseInt(data.id);
+    let delete_Authors_author = `DELETE FROM authors WHERE authors.authorId = ?`;
+  
+          // Run the 1st query
+          db.pool.query( delete_Authors_author, [authorId], function(error, rows, fields){
+            if (error) {
+                console.log(error)
+                res.sendStatus(400);
+            }
+            
+            else
+            {
+                res.redirect('/authors');
+            }
+  
+  })});
 
 // books
 
