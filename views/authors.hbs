@@ -7,14 +7,14 @@
 <table id="author-table">
 
     <thead>
-        <p>Authors sorted by last name.</p>
+        <h3>Authors sorted by last name.</h3>
         <tr>
             {{#each data.[0]}}
             <th>
                 {{@key}}
             </th>
             {{/each}}
-            <th>delete</th>
+            <th></th>
         </tr>
     </thead>
 
@@ -36,7 +36,7 @@
 </div>
 
 <div>
-<h2>Add a new author.</h2>
+<h3>Add a new author.</h3>
 
 <form id="add-author-form" method="POST" action="/add-author-form">
 <p>To add a new author, please enter their information below and click Submit!</p>
@@ -58,7 +58,7 @@
 </div>
 
 <div>
-<h2>Search for an author.</h2>
+<h3>Search for an author.</h3>
 
 <form id="search-author-html" method='GET' action='/authors'>
 <p>Search by last name using the field below. Partial last names are OK too!</p>
@@ -66,7 +66,6 @@
     <input type="text" name="lastName" id="input-lastName-html-search">
     
     <br>
-
     <input type="submit" class="submit">
     <a href='/'><button>Reset</button></a>
 

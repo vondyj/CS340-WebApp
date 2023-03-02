@@ -93,18 +93,14 @@ app.delete('/delete-author-ajax/', function(req,res,next){
     let authorId = parseInt(data.id);
     let delete_Authors_author = `DELETE FROM authors WHERE authors.authorId = ?`;
   
-          // Run the 1st query
+          // Run the query
           db.pool.query( delete_Authors_author, [authorId], function(error, rows, fields){
             if (error) {
-                console.log(error)
+                console.log(error);
                 res.sendStatus(400);
-            }
-            
-            else
-            {
+            } else {
                 res.redirect('/authors');
             }
-  
   })});
 
 // books
