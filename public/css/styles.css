@@ -51,6 +51,8 @@ nav {
   flex-direction: row;
   flex-flow: row wrap;
   justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 ul {
