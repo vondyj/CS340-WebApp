@@ -24,11 +24,13 @@ h1 {
   }
 
 h2 {
+  font-family: 'Poppins', sans-serif;
   padding: 5px;
   text-align: center;
 }
 
 h3 {
+  font-family: 'Poppins', sans-serif;
   text-align: center;
 }
 
@@ -80,20 +82,20 @@ li a:hover {
 }
 
 table, td, th {
-    border: 1px solid;
-    padding: 10px;
+  border: 1px solid;
+  padding: 10px;
   }
 
 
 table {
-    border: 2.5px solid;
-    border-collapse: collapse;
-    padding: 25px;
-    background-color: #FBFAF5;
-    text-align: left;
-    margin-bottom: 40px;
-    margin-left: 40px;
-    margin-right: 40px;
+  border: 2.5px solid;
+  border-collapse: collapse;
+  padding: 25px;
+  background-color: #FBFAF5;
+  text-align: left;
+  margin-bottom: 40px;
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
 form {
@@ -102,10 +104,13 @@ form {
   margin-bottom: 40px;
   margin-left: 40px;
   margin-right: 40px;
-  width: 400px;
+  width: 500px;
   text-align: center;
 }
 
+.left {
+  text-align: left;
+}
 
 input {
   width: 60%;
@@ -154,7 +159,8 @@ button {
   border-style: solid 1px;
   border-color: #663300;
   font-size: 18px;
-  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   width: 90px;
   text-align: center;
 }
@@ -166,3 +172,14 @@ button {
   justify-content: space-around;
 }
 
+select {
+  font-family: 'Poppins', sans-serif;
+  background: #FBFAF5;
+  color: #663300;
+  padding: 8px 12px 8px 12px;
+  border-style: solid 2px;
+  border-color: #663300;
+  border-radius: 25px;
+  font-size: 18px;
+  margin: 20px 0px 40px 0px;
+}

@@ -105,6 +105,42 @@ app.delete('/delete-author-ajax/', function(req,res,next){
             }
   })});
 
+app.put('/put-author', function(req,res,next){
+    let data = req.body;
+  
+    let firstName = parseInt(data.firstName);
+    let middleName = parseInt(data.middleName);
+    let lastName = parseInt(data.lastName);
+  
+    let queryUpdateAuthor = `UPDATE authors SET author.lastName = ?, author.middleName = ?, author.lastName = ? WHERE authors.authorId = ?`;
+    let selectWorld = `SELECT * FROM bsg_planets WHERE id = ?`
+  
+          // Run the 1st query
+          db.pool.query(queryUpdateWorld, [homeworld, person], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+              // If there was no error, we run our second query and return that data so we can use it to update the people's
+              // table on the front-end
+              else
+              {
+                  // Run the second query
+                  db.pool.query(selectWorld, [homeworld], function(error, rows, fields) {
+  
+                      if (error) {
+                          console.log(error);
+                          res.sendStatus(400);
+                      } else {
+                          res.send(rows);
+                      }
+                  })
+              }
+  })});
+
 // books
 
 app.get('/books', function(req, res)

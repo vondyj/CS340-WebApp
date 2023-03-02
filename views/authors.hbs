@@ -35,9 +35,6 @@
     
 </table>
 
-<script src="./js/delete_author.js"></script>
-<script src="./js/edit_author.js"></script>
-
 </div>
 
 <div class="col">
@@ -45,7 +42,7 @@
 
 <form id="add-author-form" method="POST" action="/add-author-form">
 <p>To add a new author, please enter their information below then click submit.</p>
-    <label for="input-firstName">First Name: </label>
+    <label for="input-firstName" class="left">First Name: </label>
     <input type="text" name="input-firstName" id="input-firstName" required>
     <br>
 
@@ -67,8 +64,9 @@
 
 <form id="search-author-html" method='GET' action='/authors'>
 <p>Search by last name using the field below. Partial last names are able to be searched.</p>
+    <br>
     <label for="input-lastName">Search by Last Name: </label>
-    <input type="text" name="lastName" id="input-lastName-html-search" required>
+    <input type="text" name="lastName" id="input-lastName-html-search">
     
     <br>
     <input type="submit" class="submit">
@@ -79,9 +77,19 @@
 
 <div class="col">
     <h3>Update an author.</h3>
-    <form id="update-author-form-ajax">
+    <form id="update-author-form">
 
-       <label for="input-firstName">First Name: </label>
+        <label for="author-select" class=>Select an author: </label>
+        <select name="author-select" id="author-select">
+        <option value="">authors</option>
+        {{#each data}}
+        <option value="{{this.id}}">{{this.author}}</option>
+        {{/each}}
+        </select>
+
+        <br>
+
+        <label for="input-firstName">First Name: </label>
         <input type="text" name="input-firstName" id="input-firstName" required>
         <br>
 
@@ -97,8 +105,10 @@
 
     </form>
 
+
+</div>
+
+</div>
+
+<script src="./js/delete_author.js"></script>
 <script src="./js/update_author.js"></script>
-
-</div>
-
-</div>
