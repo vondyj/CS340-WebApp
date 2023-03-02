@@ -32,7 +32,7 @@ function deleteRow(authorId){
     for (let i = 0, row; row = table.rows[i]; i++) {
        //iterate through rows
        //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == authorId) {
+       if (table.rows[i].getAttribute("id") == authorId) {
             table.deleteRow(i);
             break;
        }

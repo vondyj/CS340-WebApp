@@ -50,13 +50,13 @@ app.get('/authors', function(req, res)
         // If there is no query string, we just perform a basic SELECT
         if (req.query.lastName === undefined)
         {
-        query1 = "SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, IFNULL(CONCAT(' ', authors.middleName), '')) AS author FROM authors ORDER BY authors.lastName;"
+        query1 = "SELECT authors.authorId AS id, authors.lastName AS last, authors.firstName AS first, IFNULL(authors.middleName, 'NULL') AS middle FROM authors ORDER BY authors.lastName;"
         }
 
         // If there is a query string, we assume this is a search, and return desired results
         else
         {
-        query1 = `SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, IFNULL(CONCAT(' ', authors.middleName), '')) AS author FROM authors WHERE authors.lastName LIKE "${req.query.lastName}%" ORDER BY authors.lastName;`
+        query1 = `SELECT authors.authorId AS id, authors.lastName AS last, authors.firstName AS first, IFNULL(authors.middleName, 'NULL') AS middle FROM authors WHERE authors.lastName LIKE "${req.query.lastName}%" ORDER BY authors.lastName;`
         
         }   
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
@@ -69,8 +69,13 @@ app.post('/add-author-form', function(req, res){
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
+    let middleName = data['input-middleName'];
+    if (middleName === '') {
+        middleName = 'NULL'
+    }
+
     // Create the query and run it on the database
-    query1 = `INSERT INTO authors (firstName, middleName, lastName) VALUES ('${data['input-firstName']}', '${data['input-middleName']}', '${data['input-lastName']}')`;
+    query1 = `INSERT INTO authors (firstName, middleName, lastName) VALUES ('${data['input-firstName']}', '${middleName}', '${data['input-lastName']}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
@@ -107,16 +112,16 @@ app.delete('/delete-author-ajax/', function(req,res,next){
 
 app.put('/put-author', function(req,res,next){
     let data = req.body;
-  
-    let firstName = parseInt(data.firstName);
-    let middleName = parseInt(data.middleName);
-    let lastName = parseInt(data.lastName);
-  
-    let queryUpdateAuthor = `UPDATE authors SET author.lastName = ?, author.middleName = ?, author.lastName = ? WHERE authors.authorId = ?`;
-    let selectWorld = `SELECT * FROM bsg_planets WHERE id = ?`
+
+    let lastName = data.last;
+    let firstName = data.first;
+    let middleName = data.middle;
+    let id = data.id;
+
+    let queryUpdateAuthor = `UPDATE authors SET author.lastName = '${lastName}', author.firstName = '${firstName}', author.middleName = '${middleName}' WHERE authors.authorId = '${id}';`
   
           // Run the 1st query
-          db.pool.query(queryUpdateWorld, [homeworld, person], function(error, rows, fields){
+          db.pool.query(queryUpdateAuthor, function(error, rows, fields){
               if (error) {
   
               // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
@@ -126,19 +131,7 @@ app.put('/put-author', function(req,res,next){
   
               // If there was no error, we run our second query and return that data so we can use it to update the people's
               // table on the front-end
-              else
-              {
-                  // Run the second query
-                  db.pool.query(selectWorld, [homeworld], function(error, rows, fields) {
-  
-                      if (error) {
-                          console.log(error);
-                          res.sendStatus(400);
-                      } else {
-                          res.send(rows);
-                      }
-                  })
-              }
+
   })});
 
 // books

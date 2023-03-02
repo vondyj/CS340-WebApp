@@ -25,10 +25,12 @@
 
         {{#each data}}
         <tr>
-            <td>{{this.id}}</td>
-            <td>{{this.author}}</td>
+            <td id="id">{{this.id}}</td>
+            <td>{{this.last}}</td>
+            <td>{{this.first}}</td>
+            <td>{{this.middle}}</td>
+            <td><button><a href="#">Edit</a></button></td>
             <td><button onclick="deleteAuthor({{this.id}})">Delete</button></td>
-            <td><button onclick="editAuthor({{this}})">Edit</button></td>
         </tr>
         {{/each}}
     </tbody>
@@ -79,16 +81,6 @@
     <h3>Update an author.</h3>
     <form id="update-author-form">
 
-        <label for="author-select" class=>Select an author: </label>
-        <select name="author-select" id="author-select">
-        <option value="">authors</option>
-        {{#each data}}
-        <option value="{{this.id}}">{{this.author}}</option>
-        {{/each}}
-        </select>
-
-        <br>
-
         <label for="input-firstName">First Name: </label>
         <input type="text" name="input-firstName" id="input-firstName" required>
         <br>
@@ -101,7 +93,7 @@
         <input type="text" name="input-lastName" id="input-lastName" required>
         <br>
 
-        <input type="submit" class="submit">
+        <input type="submit" class="submit" onclick="updateAuthor{{this}}">
 
     </form>
 
