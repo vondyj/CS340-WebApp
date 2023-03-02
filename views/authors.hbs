@@ -1,3 +1,5 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
 <h2>authors</h2>
 
 <div class="flex-container">
@@ -15,6 +17,7 @@
             </th>
             {{/each}}
             <th></th>
+            <th></th>
         </tr>
     </thead>
 
@@ -25,6 +28,7 @@
             <td>{{this.id}}</td>
             <td>{{this.author}}</td>
             <td><button onclick="deleteAuthor({{this.id}})">Delete</button></td>
+            <td><button onclick="editAuthor({{this}})">Edit</button></td>
         </tr>
         {{/each}}
     </tbody>
@@ -32,6 +36,7 @@
 </table>
 
 <script src="./js/delete_author.js"></script>
+<script src="./js/edit_author.js"></script>
 
 </div>
 
@@ -39,7 +44,7 @@
 <h3>Add a new author.</h3>
 
 <form id="add-author-form" method="POST" action="/add-author-form">
-<p>To add a new author, please enter their information below and click Submit!</p>
+<p>To add a new author, please enter their information below then click submit.</p>
     <label for="input-firstName">First Name: </label>
     <input type="text" name="input-firstName" id="input-firstName" required>
     <br>
@@ -70,6 +75,30 @@
     <a href='/'><button>Reset</button></a>
 
 </form>
+</div>
+
+<div>
+    <h3>Update an author.</h3>
+    <form id="update-author-form-ajax">
+
+       <label for="input-firstName">First Name: </label>
+        <input type="text" name="input-firstName" id="input-firstName" required>
+        <br>
+
+        <label for="input-middleName">Middle Name: </label>
+        <input type="text" name="input-middleName" id="input-middleName">
+        <br>
+
+        <label for="input-lastName">Last Name: </label>
+        <input type="text" name="input-lastName" id="input-lastName" required>
+        <br>
+
+        <input type="submit" class="submit">
+
+    </form>
+
+<script src="./js/update_author.js"></script>
+
 </div>
 
 </div>
