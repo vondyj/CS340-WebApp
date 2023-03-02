@@ -1,12 +1,13 @@
-
 <h2>authors</h2>
 
-<p>Authors sorted by last name.</p>
+<div class="flex-container">
+
+<div>
 
 <table id="author-table">
 
     <thead>
-
+        <p>Authors sorted by last name.</p>
         <tr>
             {{#each data.[0]}}
             <th>
@@ -32,15 +33,15 @@
 
 <script src="./js/delete_author.js"></script>
 
-<br>
+</div>
 
-<h2>Add a new author using the form below.</h2>
-<p>To add a new author, please enter their information below and click Submit!</p>
+<div>
+<h2>Add a new author.</h2>
 
 <form id="add-author-form" method="POST" action="/add-author-form">
-
+<p>To add a new author, please enter their information below and click Submit!</p>
     <label for="input-firstName">First Name: </label>
-    <input type="text" name="input-firstName" id="input-firstName">
+    <input type="text" name="input-firstName" id="input-firstName" required>
     <br>
 
     <label for="input-middleName">Middle Name: </label>
@@ -48,24 +49,28 @@
     <br>
 
     <label for="input-lastName">Last Name: </label>
-    <input type="text" name="input-lastName" id="input-lastName">
+    <input type="text" name="input-lastName" id="input-lastName" required>
     <br>
     
-    <input type="submit">
+    <input type="submit" class="submit">
 
 </form>
+</div>
 
-<br>
-
-<h2>Search for an author by last name using the form below.</h2>
-<p>Search by last name using the field below. Partial last names are OK too!</p>
+<div>
+<h2>Search for an author.</h2>
 
 <form id="search-author-html" method='GET' action='/authors'>
-
+<p>Search by last name using the field below. Partial last names are OK too!</p>
     <label for="input-lastName">Search by Last Name: </label>
     <input type="text" name="lastName" id="input-lastName-html-search">
     
-    <input type="submit">
+    <br>
+
+    <input type="submit" class="submit">
     <a href='/'><button>Reset</button></a>
 
 </form>
+</div>
+
+</div>
