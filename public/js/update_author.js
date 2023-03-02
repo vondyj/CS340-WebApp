@@ -1,9 +1,4 @@
-$("a").click(function(){
-    var col = $(this).closest("tr");
-    $("input[name='input-lastName']").val(col.find("td:eq(1)").text());
-    $("input[name='input-firstName']").val(col.find("td:eq(2)").text());
-    $("input[name='input-middleName']").val(col.find("td:eq(3)").text());
-});
+
 
 function updateAuthor(author)
     // Put our data we want to send in a javascript object
