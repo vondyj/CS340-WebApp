@@ -109,6 +109,7 @@ app.delete('/delete-author-ajax/', function(req,res,next){
             } else {
                 res.redirect('/authors');
             }
+            
   })});
 
 app.put('/put-author', function(req,res,next){

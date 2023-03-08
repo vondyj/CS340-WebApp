@@ -11,11 +11,10 @@
     <thead>
         <h3>Authors sorted by last name.</h3>
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>id</th>
+            <th>last</th>
+            <th>first</th>
+            <th>middle</th>
             <th></th>
         </tr>
     </thead>
@@ -41,7 +40,7 @@
 <h3>Search for an author.</h3>
 
 <form id="search-author-html" method='GET' action='/authors'>
-<p>Search by last name using the field below. Partial last names are able to be searched.</p>
+<p>Search by last name using the field below. Partial last names are able to be searched. To reset the table, click the reset button below.</p>
     <br>
     <label for="input-lastName">Search by Last Name: </label>
     <br>
