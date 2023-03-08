@@ -2,58 +2,59 @@
 
 <div class="flex-container">
 
-<div>
-<table>
+  <div>
+    <table>
 
-    <thead>
+      <thead>
         <h3>An intersection table, ordered by id.</h3>
         <tr>
-            <th>id</th>
-            <th>purchase id</th>
-            <th>quantity</th>
-            <th>book id</th>
-            <th>title</th>
+          <th>id</th>
+          <th>purchase id</th>
+          <th>quantity</th>
+          <th>book id</th>
+          <th>title</th>
         </tr>
-    </thead>
+      </thead>
 
-    <tbody>
+      <tbody>
 
         {{#each data}}
-        <tr>
+          <tr>
             <td>{{this.id}}</td>
             <td>{{this.purchase}}</td>
             <td>{{this.quantity}}</td>
             <td>{{this.book_id}}</td>
             <td>{{this.title}}</td>
-        </tr>
+          </tr>
         {{/each}}
-    </tbody>
-</table>
-</div>
+      </tbody>
+    </table>
+  </div>
 
-<div>
-<h3>Add details for a purchase.</h3>
+  <div>
+    <h3>Add details for a purchase.</h3>
 
-<form id="add-details-form" method="POST" action="/add-details-form">
-<p>To add details to a purchase, please supply the requested information then click submit.</p>
+    <form id="add-details-form" method="POST" action="/add-details-form">
+      <p>To add details to a purchase, please supply the requested information
+        then click submit.</p>
 
-    <label for="select-purchase">Purchase: </label>
-    <select name="select-purchase" id="select-purchase">
-    </select>
-    <br>
+      <label for="select-purchase">Purchase: </label>
+      <select name="select-purchase" id="select-purchase">
+      </select>
+      <br />
 
-    <label for="input-quantity">Quantity: </label>
-    <input type="number" name="input-quantity" id="input-quantity" required>
-    <br>
+      <label for="input-quantity">Quantity: </label>
+      <input type="number" name="input-quantity" id="input-quantity" required />
+      <br />
 
-    <label for="select-book">Book: </label>
-    <select name="select-book" id="select-book">
-    </select>
-    <br>    
-    
-    <button class="submit">Submit</button>
+      <label for="select-book">Book: </label>
+      <select name="select-book" id="select-book">
+      </select>
+      <br />
 
-</form>
-</div>
+      <button class="submit">Submit</button>
+
+    </form>
+  </div>
 
 </div>
