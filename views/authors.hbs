@@ -4,7 +4,7 @@
 
 <div class="flex-container">
 
-<div class="col">
+<div>
 
 <table id="author-table">
 
@@ -37,7 +37,24 @@
 
 </div>
 
-<div class="col">
+<div>
+<h3>Search for an author.</h3>
+
+<form id="search-author-html" method='GET' action='/authors'>
+<p>Search by last name using the field below. Partial last names are able to be searched.</p>
+    <br>
+    <label for="input-lastName">Search by Last Name: </label>
+    <br>
+    <input type="text" name="lastName" id="input-lastName-html-search">
+    
+    <br>
+    <button class="submit">Submit</button>
+    <a href='/'><button>Reset</button></a>
+
+</form>
+</div>
+
+<div>
 <h3>Add a new author.</h3>
 
 <form id="add-author-form" method="POST" action="/add-author-form">
@@ -59,23 +76,7 @@
 </form>
 </div>
 
-<div class="col">
-<h3>Search for an author.</h3>
-
-<form id="search-author-html" method='GET' action='/authors'>
-<p>Search by last name using the field below. Partial last names are able to be searched.</p>
-    <br>
-    <label for="input-lastName">Search by Last Name: </label>
-    <input type="text" name="lastName" id="input-lastName-html-search">
-    
-    <br>
-    <button class="submit">Submit</button>
-    <a href='/'><button>Reset</button></a>
-
-</form>
-</div>
-
-<div class="col">
+<div>
     <h3>Update an author.</h3>
     <form id="update-author-form">
     <p>Use the form below to update an authors information.</p>
