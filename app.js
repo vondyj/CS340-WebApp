@@ -141,13 +141,51 @@ app.put('/put-author', function(req,res,next){
 
 app.get('/books', function(req, res)
     {  
-        let query1 = "SELECT books.bookId AS id, books.title, CONCAT(authors.lastName, ', ',authors.firstName, ' ', IFNULL(authors.middleName, '')) AS author, stockQuantity AS quantity, CONCAT('$', (unitPrice)) AS price FROM books LEFT JOIN authorsBooks ON books.bookId = authorsBooks.FK_books_bookId LEFT JOIN authors ON authorsBooks.FK_authors_authorId = authors.authorId ORDER BY books.title;";               // Define our query
+        // Declare Query 1
+        let query1;
+
+        // If there is no query string, we just perform a basic SELECT
+        if (req.query.title === undefined)
+        {
+        query1 = "SELECT books.bookId AS id, books.title, CONCAT(authors.lastName, ', ',authors.firstName, ' ', IFNULL(authors.middleName, '')) AS author, stockQuantity AS quantity, CONCAT('$', (unitPrice)) AS price FROM books LEFT JOIN authorsBooks ON books.bookId = authorsBooks.FK_books_bookId LEFT JOIN authors ON authorsBooks.FK_authors_authorId = authors.authorId ORDER BY books.title;";               // Define our query
+        }
+
+        else
+        {
+        query1 = `SELECT books.bookId AS id, books.title, CONCAT(authors.lastName, ', ',authors.firstName, ' ', IFNULL(authors.middleName, '')) AS author, stockQuantity AS quantity, CONCAT('$', (unitPrice)) AS price FROM books LEFT JOIN authorsBooks ON books.bookId = authorsBooks.FK_books_bookId LEFT JOIN authors ON authorsBooks.FK_authors_authorId = authors.authorId WHERE books.title LIKE "${req.query.title}%" ORDER BY books.title;`;    
+        }
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
             res.render('books', {data: rows});                  
         })                                                      
-    });                                                        
+    });     
+    
+app.post('/add-book-form', function(req, res){
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO books (title, stockQuantity, unitPrice) VALUES ('${data['input-title']}', '${data['input-quantity']}', '${data['input-price']}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM bsg_people and
+        // presents it on the screen
+        else
+        {
+            // need second query to update 'authorsBooks' with the selected author 
+            res.redirect('/books');
+        }
+    })
+}) 
 
 
 // customers
