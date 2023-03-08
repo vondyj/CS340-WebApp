@@ -31,4 +31,29 @@
 </table>
 </div>
 
+<div>
+<h3>Add details for a purchase.</h3>
+
+<form id="add-details-form" method="POST" action="/add-details-form">
+<p>To add details to a purchase, please supply the requested information then click submit.</p>
+
+    <label for="select-purchase">Purchase: </label>
+    <select name="select-purchase" id="select-purchase">
+    </select>
+    <br>
+
+    <label for="input-quantity">Quantity: </label>
+    <input type="number" name="input-quantity" id="input-quantity" required>
+    <br>
+
+    <label for="select-book">Book: </label>
+    <select name="select-book" id="select-book">
+    </select>
+    <br>    
+    
+    <button class="submit">Submit</button>
+
+</form>
+</div>
+
 </div>

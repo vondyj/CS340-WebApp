@@ -8,11 +8,11 @@
     <thead>
         <h3>Customers sorted by last name.</h3>
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>id</th>
+            <th>last</th>
+            <th>first</th>
+            <th>email</th>
+            <th></th>
         </tr>
         
     </thead>
@@ -24,6 +24,7 @@
             <td>{{this.last}}</td>
             <td>{{this.first}}</td>
             <td>{{this.email}}</td>
+            <td><button onclick="deleteCustomer({{this.id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
