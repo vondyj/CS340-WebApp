@@ -5,13 +5,13 @@
 <div>
 <table>
     <thead>
-        <p>An intersection table, ordered by id.</p>
+        <h3>An intersection table, ordered by id.</h3>
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>id</th>
+            <th>author id</th>
+            <th>author</th>
+            <th>book id</th>
+            <th>title</th>
         </tr>
     </thead>
 
@@ -20,8 +20,10 @@
         {{#each data}}
         <tr>
             <td>{{this.id}}</td>
-            <td>{{this.book}}</td>
+            <td>{{this.author_id}}</td>
             <td>{{this.author}}</td>
+            <td>{{this.book_id}}</td>
+            <td>{{this.title}}</td>
         </tr>
         {{/each}}
     </tbody>

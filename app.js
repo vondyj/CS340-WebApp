@@ -40,6 +40,7 @@ app.get('/', function(req, res)
     }
 );
 
+
 // authors
 
 app.get('/authors', function(req, res)
@@ -134,11 +135,12 @@ app.put('/put-author', function(req,res,next){
 
   })});
 
+
 // books
 
 app.get('/books', function(req, res)
     {  
-        let query1 = "SELECT bookId AS id, title, stockQuantity AS quantity, unitPrice AS price FROM books;";               // Define our query
+        let query1 = "SELECT books.bookId AS id, books.title, CONCAT(authors.lastName, ', ',authors.firstName, ' ', IFNULL(authors.middleName, '')) AS author, stockQuantity AS quantity, CONCAT('$', (unitPrice)) AS price FROM books LEFT JOIN authorsBooks ON books.bookId = authorsBooks.FK_books_bookId LEFT JOIN authors ON authorsBooks.FK_authors_authorId = authors.authorId ORDER BY books.title;";               // Define our query
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
@@ -146,11 +148,12 @@ app.get('/books', function(req, res)
         })                                                      
     });                                                        
 
+
 // customers
 
 app.get('/customers', function(req, res)
     {  
-        let query1 = "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS name, customers.email AS email FROM customers ORDER BY customers.lastName ASC;"           
+        let query1 = "SELECT customers.customerId AS id, customers.lastName AS last, customers.firstName AS first, customers.email AS email FROM customers ORDER BY customers.lastName ASC;"           
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
@@ -158,11 +161,12 @@ app.get('/customers', function(req, res)
         })                                                      
     }); 
 
+
 // purchases
 
 app.get('/purchases', function(req, res)
     {  
-        let query1 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName,', ', customers.firstName) AS customer, CONCAT(staff.lastName,', ', staff.firstName) AS 'staff', books.title, purchaseBookDetails.quantity AS 'copies', books.unitPrice * purchaseBookDetails.quantity AS total FROM purchases LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId JOIN customers ON purchases.FK_customers_customerId = customers.customerId JOIN purchaseBookDetails ON purchases.purchaseId = purchaseBookDetails.FK_purchases_purchaseId JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId ORDER BY purchases.purchaseDate ASC;"
+        let query1 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName,', ', customers.firstName) AS customer, CONCAT(staff.lastName,', ', staff.firstName) AS 'staff', books.title, purchaseBookDetails.quantity AS 'copies', CONCAT('$', (books.unitPrice * purchaseBookDetails.quantity)) AS total FROM purchases LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId JOIN customers ON purchases.FK_customers_customerId = customers.customerId JOIN purchaseBookDetails ON purchases.purchaseId = purchaseBookDetails.FK_purchases_purchaseId JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId ORDER BY purchases.purchaseDate ASC;"
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
@@ -171,11 +175,12 @@ app.get('/purchases', function(req, res)
 
     }); 
 
+
 // staff
 
 app.get('/staff', function(req, res)
     {  
-        let query1 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS name, staff.email AS email FROM staff ORDER BY staff.lastName ASC;"
+        let query1 = "SELECT staff.staffId AS id, staff.lastName AS last, staff.firstName AS first, staff.email AS email FROM staff ORDER BY staff.lastName ASC;"
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
@@ -183,11 +188,12 @@ app.get('/staff', function(req, res)
         })                                                      
     }); 
 
+
 // authorsBooks
 
 app.get('/authorsBooks', function(req, res)
     {  
-        let query1 = "SELECT authorBookId AS id, FK_books_bookId AS book, FK_authors_authorId AS author FROM authorsBooks;";               // Define our query
+        let query1 = "SELECT authorBookId AS id, FK_authors_authorId AS author_id, CONCAT(authors.lastName, ', ', authors.firstName, ' ', IFNULL(authors.middleName, '')) AS author, FK_books_bookId AS book_id, books.title FROM authorsBooks JOIN authors ON authorsBooks.FK_authors_authorId = authors.authorId JOIN books ON authorsBooks.FK_books_bookId = books.bookId;";               // Define our query
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
@@ -195,11 +201,12 @@ app.get('/authorsBooks', function(req, res)
         })                                                      
     }); 
 
+
 // purchaseBookDetails   
     
 app.get('/purchaseBookDetails', function(req, res)
     {  
-        let query1 = "SELECT detailId AS id, quantity, FK_books_bookId AS book, FK_purchases_purchaseId AS purchase FROM purchaseBookDetails;";               // Define our query
+        let query1 = "SELECT purchaseBookDetails.detailId AS id, purchaseBookDetails.FK_purchases_purchaseId AS purchase, purchaseBookDetails.quantity, purchaseBookDetails.FK_books_bookId AS book_id, books.title FROM purchaseBookDetails JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId;";               // Define our query
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
