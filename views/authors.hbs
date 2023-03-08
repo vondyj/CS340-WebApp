@@ -1,111 +1,116 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+></script>
 
-<h2>authors</h2>
+<h2>authors!</h2>
 
 <div class="flex-container">
 
-<div>
+  <div>
 
-<table id="author-table">
+    <table id="author-table">
 
-    <thead>
+      <thead>
         <h3>Authors sorted by last name.</h3>
         <tr>
-            <th>id</th>
-            <th>last</th>
-            <th>first</th>
-            <th>middle</th>
-            <th></th>
+          <th>id</th>
+          <th>last</th>
+          <th>first</th>
+          <th>middle</th>
+          <th></th>
         </tr>
-    </thead>
+      </thead>
 
-    <tbody>
+      <tbody>
 
         {{#each data}}
-        <tr>
+          <tr>
             <td>{{this.id}}</td>
             <td>{{this.last}}</td>
             <td>{{this.first}}</td>
             <td>{{this.middle}}</td>
             <td><button onclick="deleteAuthor({{this.id}})">Delete</button></td>
-        </tr>
+          </tr>
         {{/each}}
-    </tbody>
-    
-</table>
+      </tbody>
 
-</div>
+    </table>
 
-<div>
-<h3>Search for an author.</h3>
+  </div>
 
-<form id="search-author-html" method='GET' action='/authors'>
-<p>Search by last name using the field below. Partial last names are able to be searched. To reset the table, click the reset button below.</p>
-    <br>
-    <label for="input-lastName">Search by last name: </label>
-    <br>
-    <input type="text" name="lastName" id="input-lastName-html-search">
-    
-    <br>
-    <button class="submit">Submit</button>
-    <a href='/a'><button>Reset</button></a>
+  <div>
+    <h3>Search for an author.</h3>
 
-</form>
-</div>
+    <form id="search-author-html" method="GET" action="/authors">
+      <p>Search by last name using the field below. Partial last names are able
+        to be searched. To reset the table, click the reset button below.</p>
+      <br />
+      <label for="input-lastName">Search by last name: </label>
+      <br />
+      <input type="text" name="lastName" id="input-lastName-html-search" />
 
-<div>
-<h3>Add a new author.</h3>
+      <br />
+      <button class="submit">Submit</button>
+      <a href="/a"><button>Reset</button></a>
 
-<form id="add-author-form" method="POST" action="/add-author-form">
-<p>To add a new author, please enter their information below then click submit.</p>
-    <label for="input-firstName" class="left">First Name: </label>
-    <input type="text" name="input-firstName" id="input-firstName" required>
-    <br>
+    </form>
+  </div>
 
-    <label for="input-middleName">Middle Name: </label>
-    <input type="text" name="input-middleName" id="input-middleName">
-    <br>
+  <div>
+    <h3>Add a new author.</h3>
 
-    <label for="input-lastName">Last Name: </label>
-    <input type="text" name="input-lastName" id="input-lastName" required>
-    <br>
-    
-    <button class="submit">Submit</button>
+    <form id="add-author-form" method="POST" action="/add-author-form">
+      <p>To add a new author, please enter their information below then click
+        submit.</p>
+      <label for="input-firstName" class="left">First Name: </label>
+      <input type="text" name="input-firstName" id="input-firstName" required />
+      <br />
 
-</form>
-</div>
+      <label for="input-middleName">Middle Name: </label>
+      <input type="text" name="input-middleName" id="input-middleName" />
+      <br />
 
-<div>
+      <label for="input-lastName">Last Name: </label>
+      <input type="text" name="input-lastName" id="input-lastName" required />
+      <br />
+
+      <button class="submit">Submit</button>
+
+    </form>
+  </div>
+
+  <div>
     <h3>Update an author.</h3>
     <form id="update-author-form">
-    <p>Use the form below to update an authors information.</p>
+      <p>Use the form below to update an authors information.</p>
 
-    <label for="select-author">Author to update: </label>
-    <select name="select-author" id="select-author">
+      <label for="select-author">Author to update: </label>
+      <select name="select-author" id="select-author">
         <option value=""></option>
         {{#each data}}
-        <option value="{{this.id}}">{{this.last}}, {{this.first}} {{this.middle}}</option>
+          <option value="{{this.id}}">{{this.last}},
+            {{this.first}}
+            {{this.middle}}</option>
         {{/each}}
-    </select>
-    <br>
+      </select>
+      <br />
 
-        <label for="input-firstName">First Name: </label>
-        <input type="text" name="input-firstName" id="input-firstName" required>
-        <br>
+      <label for="input-firstName">First Name: </label>
+      <input type="text" name="input-firstName" id="input-firstName" required />
+      <br />
 
-        <label for="input-middleName">Middle Name: </label>
-        <input type="text" name="input-middleName" id="input-middleName">
-        <br>
+      <label for="input-middleName">Middle Name: </label>
+      <input type="text" name="input-middleName" id="input-middleName" />
+      <br />
 
-        <label for="input-lastName">Last Name: </label>
-        <input type="text" name="input-lastName" id="input-lastName" required>
-        <br>
+      <label for="input-lastName">Last Name: </label>
+      <input type="text" name="input-lastName" id="input-lastName" required />
+      <br />
 
-       <button class="submit">Submit</button>
+      <button class="submit">Submit</button>
     </form>
 
-
-</div>
+  </div>
 
 </div>
 
