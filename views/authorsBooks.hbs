@@ -2,62 +2,62 @@
 
 <div class="flex-container">
 
-<div>
-<table>
-    <thead>
+  <div>
+    <table>
+      <thead>
         <h3>An intersection table, ordered by id.</h3>
         <tr>
-            <th>id</th>
-            <th>author id</th>
-            <th>author</th>
-            <th>book id</th>
-            <th>title</th>
+          <th>id</th>
+          <th>author id</th>
+          <th>author</th>
+          <th>book id</th>
+          <th>title</th>
         </tr>
-    </thead>
+      </thead>
 
-    <tbody>
+      <tbody>
 
         {{#each data}}
-        <tr>
+          <tr>
             <td>{{this.id}}</td>
             <td>{{this.author_id}}</td>
             <td>{{this.author}}</td>
             <td>{{this.book_id}}</td>
             <td>{{this.title}}</td>
-        </tr>
+          </tr>
         {{/each}}
-    </tbody>
-</table>
-</div>
+      </tbody>
+    </table>
+  </div>
 
-<div>
-<h3>Associate an author with a book.</h3>
+  <div>
+    <h3>Associate an author with a book.</h3>
 
-<form id="add-authorBook-form" method="POST" action="/add-authorBook-form">
+    <form id="add-authorBook-form" method="POST" action="/add-authorBook-form">
 
-<p>To associate an author with a book please submit the form below.</p>
+      <p>To associate an author with a book please submit the form below.</p>
 
-    <label for="select-author">Author: </label>
-    <select name="select-author" id="select-author">
+      <label for="select-author">Author: </label>
+      <select name="select-author" id="select-author">
         <option value=""></option>
         {{#each data}}
-        <option value="{{this.id}}">{{this.author}}</option>
+          <option value="{{this.id}}">{{this.author}}</option>
         {{/each}}
-    </select>
-    <br>
+      </select>
+      <br />
 
-    <label for="select-book">Book: </label>
-    <select name="select-book" id="select-book">
+      <label for="select-book">Book: </label>
+      <select name="select-book" id="select-book">
         <option value=""></option>
         {{#each data}}
-        <option value="{{this.id}}">{{this.title}}</option>
+          <option value="{{this.id}}">{{this.title}}</option>
         {{/each}}
-    </select>
-    <br>
+      </select>
+      <br />
 
-    <button class="submit">Submit</button>
+      <button class="submit">Submit</button>
 
-</form>
-</div>
+    </form>
+  </div>
 
 </div>
