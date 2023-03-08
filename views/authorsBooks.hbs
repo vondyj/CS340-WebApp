@@ -39,11 +39,19 @@
 
     <label for="select-author">Author: </label>
     <select name="select-author" id="select-author">
+        <option value=""></option>
+        {{#each data}}
+        <option value="{{this.id}}">{{this.author}}</option>
+        {{/each}}
     </select>
     <br>
 
     <label for="select-book">Book: </label>
     <select name="select-book" id="select-book">
+        <option value=""></option>
+        {{#each data}}
+        <option value="{{this.id}}">{{this.title}}</option>
+        {{/each}}
     </select>
     <br>
 

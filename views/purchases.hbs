@@ -49,16 +49,28 @@
 
     <label for="select-customer">Customer: </label>
     <select name="select-customer" id="select-customer">
+        <option value=""></option>
+        {{#each data}}
+        <option value="{{this.id}}">{{this.customer}}</option>
+        {{/each}}
     </select>
     <br>
 
     <label for="select-staff">Staff: </label>
     <select name="select-staff" id="select-staff">
+        <option value=""></option>
+        {{#each data}}
+        <option value="{{this.id}}">{{this.staff}}</option>
+        {{/each}}
     </select>
     <br>
 
     <label for="select-book">Book: </label>
     <select name="select-book" id="select-book">
+        <option value=""></option>
+        {{#each data}}
+        <option value="{{this.id}}">{{this.title}}</option>
+        {{/each}}
     </select>
     <br>
 
