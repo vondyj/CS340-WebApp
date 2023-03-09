@@ -101,11 +101,11 @@ li a:hover {
 table, td, th {
   border: 1px solid;
   padding: 15px;
-  }
+}
 
   tr:nth-child(even) {
     background-color: #99CCCC;
-  }
+}
 
 table {
   border: 2.5px solid;
@@ -161,6 +161,7 @@ button, .submit {
   color: #FBFAF5;
   padding: 8px 12px 8px 12px;
   border: none;
+  border-radius: 10px;
   font-size: 18px;
   font-weight: 500;
   font-family: 'Poppins', sans-serif;

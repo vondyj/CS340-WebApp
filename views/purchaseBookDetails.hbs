@@ -45,7 +45,7 @@
         then click submit.</p>
 
       <label for="select-purchase" class="col-40">Purchase: </label>
-      <select name="select-purchase" id="select-purchase">
+      <select name="select-purchase" id="select-purchase" required>
        <option value=""></option>
         {{#each dropDown1}}
         <option value="{{this.id}}">{{moment this.date format="l"}} - {{this.customer}}</option>
@@ -58,7 +58,7 @@
       <br />
 
       <label for="select-book" class="col-40">Book: </label>
-      <select name="select-book" id="select-book">
+      <select name="select-book" id="select-book" required>
        <option value=""></option>
         {{#each dropDown2}}
         <option value="{{this.id}}">{{this.title}}</option>
