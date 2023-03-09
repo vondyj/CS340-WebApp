@@ -278,8 +278,8 @@ app.delete('/delete-customer-ajax/', function(req,res,next){
 app.get('/purchases', function(req, res)
     {  
         let query1 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName,', ', customers.firstName) AS customer, CONCAT(staff.lastName,', ', staff.firstName) AS 'staff', books.title, purchaseBookDetails.quantity AS 'copies', CONCAT('$', (books.unitPrice * purchaseBookDetails.quantity)) AS total FROM purchases LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId JOIN customers ON purchases.FK_customers_customerId = customers.customerId LEFT JOIN purchaseBookDetails ON purchases.purchaseId = purchaseBookDetails.FK_purchases_purchaseId LEFT JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId ORDER BY purchases.purchaseDate ASC;"
-        let query2 = "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM customers;"
-        let query3 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS staff FROM staff;"
+        let query2 = "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM customers ORDER BY customers.lastName;"
+        let query3 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS staff FROM staff ORDER BY staff.lastName;"
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
             let purchases = rows;
@@ -401,14 +401,30 @@ app.delete('/delete-staff-ajax/', function(req,res,next){
 
 app.get('/authorsBooks', function(req, res)
     {  
-        let query1 = "SELECT authorBookId AS id, FK_authors_authorId AS author_id, CONCAT(authors.lastName, ', ', authors.firstName, ' ', IFNULL(authors.middleName, '')) AS author, FK_books_bookId AS book_id, books.title FROM authorsBooks JOIN authors ON authorsBooks.FK_authors_authorId = authors.authorId JOIN books ON authorsBooks.FK_books_bookId = books.bookId;";               // Define our query
+        let query1 = "SELECT authorBookId AS id, FK_authors_authorId AS author_id, CONCAT(authors.lastName, ', ', authors.firstName, ' ', IFNULL(authors.middleName, '')) AS author, FK_books_bookId AS book_id, books.title FROM authorsBooks JOIN authors ON authorsBooks.FK_authors_authorId = authors.authorId JOIN books ON authorsBooks.FK_books_bookId = books.bookId;"                     
+        let query2 = "SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, ' ', IFNULL(authors.middleName, '')) AS author FROM authors ORDER BY authors.lastName;"
+        let query3 = "SELECT books.bookId AS id, books.title FROM books ORDER BY books.title;"
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
+            
+            let authorsBooks = rows;
 
-            res.render('authorsBooks', {data: rows});                  
-        })                                                      
+            db.pool.query(query2, (error, rows, fields) => {
+
+                let authors = rows;
+
+                db.pool.query(query3, (error, rows, fields) => {
+
+                let books = rows;
+    
+                return res.render('authorsBooks', {data: authorsBooks, dropDown1: authors, dropDown2: books});           
+                
+                })
+            })
+                       
+        })         
+
     }); 
-
 
 // purchaseBookDetails -------------------------------------------------------------------------------------------------------
     

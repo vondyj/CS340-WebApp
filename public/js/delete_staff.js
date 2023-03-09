@@ -10,11 +10,11 @@ function deleteStaff(staffId) {
       data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
       success: function(result) {
+        location.reload(true);
       }
     
     });
 
-    window.location = window.location;
-    window.location.reload();
+    location.reload(true);
 
   }

@@ -44,16 +44,17 @@
     <h3>Search for an author.</h3>
 
     <form id="search-author-html" method="GET" action="/authors">
-      <p>Search by last name using the field below. Partial last names are able
-        to be searched. To reset the table, click the reset button below.</p>
+      <p>Search by last name using the field below. Partial last names are able to be searched. To reset the table, click the reset button below.</p>
       <br />
-      <label for="input-lastName">Search by last name: </label>
-      <br />
-      <input type="text" name="lastName" id="input-lastName-html-search" />
 
+      <label for="input-lastName" class="col-40">Search by last name: </label>
       <br />
+
+      <input type="text" name="lastName" id="input-lastName-html-search"/>
+      <br />
+
       <button class="submit">Submit</button>
-      <a href="/a"><button>Reset</button></a>
+      <a href="/"><button>Reset</button></a>
 
     </form>
   </div>
@@ -62,17 +63,19 @@
     <h3>Add a new author.</h3>
 
     <form id="add-author-form" method="POST" action="/add-author-form">
+
       <p>To add a new author, please enter their information below then click
         submit.</p>
-      <label for="input-firstName" class="left">First Name: </label>
+
+      <label for="input-firstName" class="col-40">First Name: </label>
       <input type="text" name="input-firstName" id="input-firstName" required />
       <br />
 
-      <label for="input-middleName">Middle Name: </label>
+      <label for="input-middleName" class="col-40">Middle Name: </label>
       <input type="text" name="input-middleName" id="input-middleName" />
       <br />
 
-      <label for="input-lastName">Last Name: </label>
+      <label for="input-lastName" class="col-40">Last Name: </label>
       <input type="text" name="input-lastName" id="input-lastName" required />
       <br />
 
@@ -86,7 +89,7 @@
     <form id="update-author-form">
       <p>Use the form below to update an authors information.</p>
 
-      <label for="select-author">Author to update: </label>
+      <label for="select-author" class="col-40">Author to update: </label>
       <select name="select-author" id="select-author">
         <option value=""></option>
         {{#each dropDown}}
@@ -95,15 +98,15 @@
       </select>
       <br />
 
-      <label for="input-firstName">First Name: </label>
+      <label for="input-firstName" class="col-40">First Name: </label>
       <input type="text" name="input-firstName" id="input-firstName" required />
       <br />
 
-      <label for="input-middleName">Middle Name: </label>
+      <label for="input-middleName" class="col-40">Middle Name: </label>
       <input type="text" name="input-middleName" id="input-middleName" />
       <br />
 
-      <label for="input-lastName">Last Name: </label>
+      <label for="input-lastName" class="col-40">Last Name: </label>
       <input type="text" name="input-lastName" id="input-lastName" required />
       <br />
 

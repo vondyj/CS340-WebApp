@@ -37,19 +37,19 @@
 
       <p>To associate an author with a book please submit the form below.</p>
 
-      <label for="select-author">Author: </label>
+      <label for="select-author" class="col-40">Author: </label>
       <select name="select-author" id="select-author">
         <option value=""></option>
-        {{#each data}}
+        {{#each dropDown1}}
           <option value="{{this.id}}">{{this.author}}</option>
         {{/each}}
       </select>
       <br />
 
-      <label for="select-book">Book: </label>
+      <label for="select-book" class="col-40">Book: </label>
       <select name="select-book" id="select-book">
         <option value=""></option>
-        {{#each data}}
+        {{#each dropDown2}}
           <option value="{{this.id}}">{{this.title}}</option>
         {{/each}}
       </select>

@@ -11,13 +11,12 @@ function deleteAuthor(authorId) {
       data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
       success: (result) => {
-          deleteRow(authorId);
+        location.reload(true);
       }
     
     });
 
-    window.location = window.location;
-    window.location.reload();
+    location.reload(true);
 
   }
 
