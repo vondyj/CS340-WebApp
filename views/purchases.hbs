@@ -1,3 +1,8 @@
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="./js/delete_purchase.js"></script>
+</head>
+
 <h2>purchases</h2>
 
 <div class="flex-container">
@@ -15,6 +20,7 @@
           <th>book title</th>
           <th>copies purchased</th>
           <th>line total</th>
+          <th></th>
         </tr>
       </thead>
 
@@ -29,6 +35,7 @@
             <td>{{this.title}}</td>
             <td>{{this.copies}}</td>
             <td>{{this.total}}</td>
+            <td><button onclick="deletePurchase({{this.id}})">Delete</button></td>
           </tr>
         {{/each}}
 
@@ -56,7 +63,7 @@
       <label for="select-customer">Customer: </label>
       <select name="select-customer" id="select-customer">
         <option value=""></option>
-        {{#each data}}
+        {{#each dropDown1}}
           <option value="{{this.id}}">{{this.customer}}</option>
         {{/each}}
       </select>
@@ -65,29 +72,10 @@
       <label for="select-staff">Staff: </label>
       <select name="select-staff" id="select-staff">
         <option value=""></option>
-        {{#each data}}
+        {{#each dropDown2}}
           <option value="{{this.id}}">{{this.staff}}</option>
         {{/each}}
       </select>
-      <br />
-
-      <label for="select-book">Book: </label>
-      <select name="select-book" id="select-book">
-        <option value=""></option>
-        {{#each data}}
-          <option value="{{this.id}}">{{this.title}}</option>
-        {{/each}}
-      </select>
-      <br />
-
-      <label for="input-quantity">Copies Purchased: </label>
-      <input
-        type="number"
-        name="input-quantity"
-        id="input-quantity"
-        min="1"
-        required
-      />
       <br />
 
       <button class="submit">Submit</button>

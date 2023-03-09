@@ -8,11 +8,11 @@
       <thead>
         <h3>An intersection table, ordered by id.</h3>
         <tr>
-          <th>id</th>
+          <th>detail id</th>
           <th>purchase id</th>
-          <th>quantity</th>
           <th>book id</th>
           <th>title</th>
+          <th>quantity</th>
         </tr>
       </thead>
 
@@ -22,9 +22,9 @@
           <tr>
             <td>{{this.id}}</td>
             <td>{{this.purchase}}</td>
-            <td>{{this.quantity}}</td>
             <td>{{this.book_id}}</td>
             <td>{{this.title}}</td>
+            <td>{{this.quantity}}</td>
           </tr>
         {{/each}}
       </tbody>
@@ -40,15 +40,23 @@
 
       <label for="select-purchase">Purchase: </label>
       <select name="select-purchase" id="select-purchase">
+       <option value=""></option>
+        {{#each dropDown1}}
+        <option value="{{this.id}}">{{moment this.date format="l"}} - {{this.customer}}</option>
+        {{/each}}
       </select>
       <br />
 
       <label for="input-quantity">Quantity: </label>
-      <input type="number" name="input-quantity" id="input-quantity" required />
+      <input type="number" name="input-quantity" id="input-quantity" min="1" required />
       <br />
 
       <label for="select-book">Book: </label>
       <select name="select-book" id="select-book">
+       <option value=""></option>
+        {{#each dropDown2}}
+        <option value="{{this.id}}">{{this.title}}</option>
+        {{/each}}
       </select>
       <br />
 

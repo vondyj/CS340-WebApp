@@ -1,7 +1,9 @@
-<header>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="./js/delete_customer.js"></script>
-</header>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="./js/delete_customer.js"></script>
+</head>
+  
+
 
 <h2>customers</h2>
 
@@ -29,14 +31,14 @@
             <td>{{this.last}}</td>
             <td>{{this.first}}</td>
             <td>{{this.email}}</td>
-            <td><button
-                onclick="deleteCustomer({{this.id}})"
-              >Delete</button></td>
+            <td><button onclick="deleteCustomer({{this.id}})">Delete</button></td>
           </tr>
         {{/each}}
       </tbody>
     </table>
   </div>
+
+
 
   <div>
     <h3>Add a new customer.</h3>

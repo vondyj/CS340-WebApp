@@ -1,7 +1,7 @@
-function deleteCustomer(customerId) {
-    let link = '/delete-customer-ajax/';
+function deletePurchase(purchaseId) {
+    let link = '/delete-purchase-ajax/';
     let data = {
-      id: customerId
+      id: purchaseId
     };
   
     $.ajax({
@@ -18,4 +18,3 @@ function deleteCustomer(customerId) {
     window.location.reload();
 
   }
-  

@@ -1,5 +1,6 @@
 <header>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="./js/delete_book.js"></script>
 </header>
 
 <h2>books</h2>
@@ -13,7 +14,7 @@
         <tr>
           <th id="book-id">id</th>
           <th>title</th>
-          <th>author</th>
+          <th>author</th> 
           <th>quantity</th>
           <th>price</th>
           <th></th>
@@ -66,10 +67,14 @@
       <input type="text" name="input-title" id="input-title" required />
       <br />
 
-      <label for="select-author">Author: </label>
+     {{!-- <label for="select-author">Author: </label>
       <select name="select-author" id="select-author">
+        <option value=""></option>
+        {{#each dropDown}}
+          <option value="{{this.id}}" name="select-author">{{this.author}}</option>
+        {{/each}}
       </select>
-      <br />
+      <br /> --}}
 
       <label for="input-quantity">Quantity: </label>
       <input
@@ -98,6 +103,3 @@
   </div>
 
 </div>
-
-
-<script src="./js/delete_book.js"></script>

@@ -45,8 +45,8 @@ app.get('/', function(req, res)
 
 app.get('/authors', function(req, res)
     {  
-        // Declare Query 1
         let query1;
+        let query2 = `SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, IFNULL(CONCAT(' ', authors.middleName), "")) AS author FROM authors ORDER BY authors.lastName;`
 
         // If there is no query string, we just perform a basic SELECT
         if (req.query.lastName === undefined)
@@ -60,11 +60,19 @@ app.get('/authors', function(req, res)
         query1 = `SELECT authors.authorId AS id, authors.lastName AS last, authors.firstName AS first, IFNULL(authors.middleName, 'NULL') AS middle FROM authors WHERE authors.lastName LIKE "${req.query.lastName}%" ORDER BY authors.lastName;`
         
         }   
-        db.pool.query(query1, function(error, rows, fields){    // Execute the query
 
-            res.render('authors', {data: rows});                
+        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+            let authors1 = rows;
+
+            db.pool.query(query2, (error, rows, fields) => {
+
+            let authors2 = rows;
+
+            return res.render('authors', {data: authors1, dropDown: authors2});           
+            
+            })
         })                                                    
-    });                                                        
+});                                                        
 
 app.post('/add-author-form', function(req, res){
     // Capture the incoming data and parse it back to a JS object
@@ -110,7 +118,7 @@ app.delete('/delete-author-ajax/', function(req,res,next){
                 res.redirect('/authors');
             }
             
-  })});
+})});
 
 app.put('/put-author', function(req,res,next){
     let data = req.body;
@@ -134,15 +142,15 @@ app.put('/put-author', function(req,res,next){
               // If there was no error, we run our second query and return that data so we can use it to update the people's
               // table on the front-end
 
-  })});
+})});
 
 
 // books -------------------------------------------------------------------------------------------------------
 
 app.get('/books', function(req, res)
     {  
-        // Declare Query 1
         let query1;
+        let query2 = `SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, IFNULL(CONCAT(' ', authors.middleName), "")) AS author, authors.firstName, authors.middleName, authors.lastName FROM authors ORDER BY authors.lastName;`
 
         // If there is no query string, we just perform a basic SELECT
         if (req.query.title === undefined)
@@ -156,10 +164,17 @@ app.get('/books', function(req, res)
         }
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
+            let books = rows;
 
-            res.render('books', {data: rows});                  
+            db.pool.query(query2, (error, rows, fields) => {
+
+            let authors = rows;
+
+            return res.render('books', {data: books, dropDown: authors});           
+            
+            })              
         })                                                      
-    });     
+});     
     
 app.post('/add-book-form', function(req, res){
     // Capture the incoming data and parse it back to a JS object
@@ -181,7 +196,6 @@ app.post('/add-book-form', function(req, res){
         // presents it on the screen
         else
         {
-            // need second query to update 'authorsBooks' with the selected author 
             res.redirect('/books');
         }
     })
@@ -202,7 +216,8 @@ app.delete('/delete-book-ajax/', function(req,res,next){
               res.sendStatus(400);
               }
   
-  })});
+})});
+
 
 // customers -------------------------------------------------------------------------------------------------------
 
@@ -214,7 +229,7 @@ app.get('/customers', function(req, res)
 
             res.render('customers', {data: rows});                  
         })                                                      
-    }); 
+}); 
 
 app.post('/add-customer-form', function(req, res){
     // Capture the incoming data and parse it back to a JS object
@@ -255,21 +270,77 @@ app.delete('/delete-customer-ajax/', function(req,res,next){
                 res.redirect('/customers');
             }
             
-  })});
+})});
 
 
 // purchases -------------------------------------------------------------------------------------------------------
 
 app.get('/purchases', function(req, res)
     {  
-        let query1 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName,', ', customers.firstName) AS customer, CONCAT(staff.lastName,', ', staff.firstName) AS 'staff', books.title, purchaseBookDetails.quantity AS 'copies', CONCAT('$', (books.unitPrice * purchaseBookDetails.quantity)) AS total FROM purchases LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId JOIN customers ON purchases.FK_customers_customerId = customers.customerId JOIN purchaseBookDetails ON purchases.purchaseId = purchaseBookDetails.FK_purchases_purchaseId JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId ORDER BY purchases.purchaseDate ASC;"
+        let query1 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName,', ', customers.firstName) AS customer, CONCAT(staff.lastName,', ', staff.firstName) AS 'staff', books.title, purchaseBookDetails.quantity AS 'copies', CONCAT('$', (books.unitPrice * purchaseBookDetails.quantity)) AS total FROM purchases LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId JOIN customers ON purchases.FK_customers_customerId = customers.customerId LEFT JOIN purchaseBookDetails ON purchases.purchaseId = purchaseBookDetails.FK_purchases_purchaseId LEFT JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId ORDER BY purchases.purchaseDate ASC;"
+        let query2 = "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM customers;"
+        let query3 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS staff FROM staff;"
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
+            let purchases = rows;
 
-            res.render('purchases', {data: rows});                  
+            db.pool.query(query2, (error, rows, fields) => {
+
+                let customers = rows;
+
+                db.pool.query(query3, (error, rows, fields) => {
+
+                let staff = rows;
+    
+                return res.render('purchases', {data: purchases, dropDown1: customers, dropDown2: staff});           
+                
+                })
+            })
+                       
         })         
 
     }); 
+
+app.post('/add-purchase-form', function(req, res){
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    let query1 = `INSERT INTO purchases (purchaseDate, FK_staff_staffId, FK_customers_customerId) VALUES ('${data['input-purchaseDate']}', '${data['select-staff']}', '${data['select-customer']}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM bsg_people and
+        // presents it on the screen
+        else
+        {
+            res.redirect('/purchases');
+        }
+    })
+})
+
+app.delete('/delete-purchase-ajax/', function(req,res,next){
+    let data = req.body;
+    let purchaseId = parseInt(data.id);
+    let delete_purchase = `DELETE FROM purchases WHERE purchases.purchaseId = ?`;
+  
+          // Run the query
+          db.pool.query( delete_purchase, [purchaseId], function(error, rows, fields){
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+                res.redirect('/purchases');
+            }
+            
+})});
 
 
 // staff -------------------------------------------------------------------------------------------------------
@@ -309,6 +380,23 @@ app.post('/add-staff-form', function(req, res){
     })
 }) 
 
+app.delete('/delete-staff-ajax/', function(req,res,next){
+    let data = req.body;
+    let staffId = parseInt(data.id);
+    let delete_staff = `DELETE FROM staff WHERE staff.staffId = ?`;
+  
+          // Run the query
+          db.pool.query(delete_staff, [staffId], function(error, rows, fields){
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+                res.redirect('/staff');
+            }
+            
+})});
+
+
 // authorsBooks -------------------------------------------------------------------------------------------------------
 
 app.get('/authorsBooks', function(req, res)
@@ -326,15 +414,55 @@ app.get('/authorsBooks', function(req, res)
     
 app.get('/purchaseBookDetails', function(req, res)
     {  
-        let query1 = "SELECT purchaseBookDetails.detailId AS id, purchaseBookDetails.FK_purchases_purchaseId AS purchase, purchaseBookDetails.quantity, purchaseBookDetails.FK_books_bookId AS book_id, books.title FROM purchaseBookDetails JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId;";               // Define our query
+        let query1 = "SELECT purchaseBookDetails.detailId AS id, purchaseBookDetails.FK_purchases_purchaseId AS purchase, purchaseBookDetails.quantity, purchaseBookDetails.FK_books_bookId AS book_id, books.title FROM purchaseBookDetails JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId;";              
+        let query2 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM purchases JOIN customers ON purchases.FK_customers_customerId = customers.customerId ORDER BY purchases.purchaseDate;"
+        let query3 = "SELECT books.bookId AS id, books.title FROM books ORDER BY books.title;"
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the query
+            
+            let purchaseDetails = rows;
 
-            res.render('purchaseBookDetails', {data: rows});                  
-        })                                                      
+            db.pool.query(query2, (error, rows, fields) => {
+
+                let customers = rows;
+
+                db.pool.query(query3, (error, rows, fields) => {
+
+                let books = rows;
+    
+                return res.render('purchaseBookDetails', {data: purchaseDetails, dropDown1: customers, dropDown2: books});           
+                
+                })
+            })
+                       
+        })         
+
     }); 
 
+app.post('/add-details-form', function(req, res){
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
 
+    // Create the query and run it on the database
+    query1 = `INSERT INTO purchaseBookDetails (quantity, FK_books_bookId, FK_purchases_purchaseId) VALUES ('${data['input-quantity']}', '${data['select-book']}', '${data['select-purchase']}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM bsg_people and
+        // presents it on the screen
+        else
+        {
+            res.redirect('/purchaseBookDetails');
+        }
+    })
+}) 
 /*
     LISTENER
 */

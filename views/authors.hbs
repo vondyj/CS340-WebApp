@@ -1,8 +1,8 @@
-<header>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="./js/delete_author.js"></script>
-  <script src="./js/update_author.js"></script>
-</header>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="./js/delete_author.js"></script>
+<script src="./js/update_author.js"></script>
+</head>
 
 <h2>authors</h2>
 
@@ -89,10 +89,8 @@
       <label for="select-author">Author to update: </label>
       <select name="select-author" id="select-author">
         <option value=""></option>
-        {{#each data}}
-          <option value="{{this.id}}">{{this.last}},
-            {{this.first}}
-            {{this.middle}}</option>
+        {{#each dropDown}}
+        <option value="{{this.id}}">{{this.author}}</option>
         {{/each}}
       </select>
       <br />
