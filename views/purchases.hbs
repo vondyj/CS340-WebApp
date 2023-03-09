@@ -12,6 +12,7 @@
 
       <thead>
         <h3>Purchases sorted by date.</h3>
+        <p>If there is not staff member associated with a puchase it can be assumed that the customer utilized the self checkout kiosk avaliable in store.</p>
         <tr>
           <th>id</th>
           <th>purchase date</th>
@@ -69,7 +70,7 @@
       </select>
       <br />
 
-      <label for="select-staff" class="col-40">Staff: </label>
+      <label for="select-staff" class="col-40">Staff (optional): </label>
       <select name="select-staff" id="select-staff">
         <option value=""></option>
         {{#each dropDown2}}

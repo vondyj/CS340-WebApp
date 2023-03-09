@@ -49,7 +49,7 @@ h3 {
 p {
   font-family: 'Poppins', sans-serif;
   max-width: 750px;
-  text-align: left;
+  text-align: center;
   margin-right: auto;
   margin-left: auto;
 }
@@ -69,6 +69,7 @@ nav {
   justify-content: center;
   margin-top: 30px;
   margin-bottom: 30px;
+  font-weight: 500;
 }
 
 ul {
@@ -99,7 +100,7 @@ li a:hover {
 
 table, td, th {
   border: 1px solid;
-  padding: 10px;
+  padding: 15px;
   }
 
   tr:nth-child(even) {
@@ -125,12 +126,11 @@ form {
   padding: 30px;
   width: 500px;
   margin: 20px;
-  text-align: left;
+  text-align: center;
 }
 
-
 input, select {
-  width: 90%;
+  width: 80%;
   padding: 12px;
   border: 2px solid #663300;
   margin: 0px 0px 25px 0px;

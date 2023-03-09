@@ -51,13 +51,13 @@ app.get('/authors', function(req, res)
         // If there is no query string, we just perform a basic SELECT
         if (req.query.lastName === undefined)
         {
-        query1 = "SELECT authors.authorId AS id, authors.lastName AS last, authors.firstName AS first, IFNULL(authors.middleName, 'NULL') AS middle FROM authors ORDER BY authors.lastName;"
+        query1 = "SELECT authors.authorId AS id, authors.lastName AS last, authors.firstName AS first, IFNULL(authors.middleName, '') AS middle FROM authors ORDER BY authors.lastName;"
         }
 
         // If there is a query string, we assume this is a search, and return desired results
         else
         {
-        query1 = `SELECT authors.authorId AS id, authors.lastName AS last, authors.firstName AS first, IFNULL(authors.middleName, 'NULL') AS middle FROM authors WHERE authors.lastName LIKE "${req.query.lastName}%" ORDER BY authors.lastName;`
+        query1 = `SELECT authors.authorId AS id, authors.lastName AS last, authors.firstName AS first, IFNULL(authors.middleName, '') AS middle FROM authors WHERE authors.lastName LIKE "${req.query.lastName}%" ORDER BY authors.lastName;`
         
         }   
 
@@ -78,13 +78,8 @@ app.post('/add-author-form', function(req, res){
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
-    let middleName = data['input-middleName'];
-    if (middleName === '') {
-        middleName = 'NULL'
-    }
-
     // Create the query and run it on the database
-    query1 = `INSERT INTO authors (firstName, middleName, lastName) VALUES ('${data['input-firstName']}', '${middleName}', '${data['input-lastName']}')`;
+    query1 = `INSERT INTO authors (firstName, middleName, lastName) VALUES ('${data['input-firstName']}', '${data['input-middleName']}', '${data['input-lastName']}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
@@ -180,8 +175,11 @@ app.post('/add-book-form', function(req, res){
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
+    // handle titles with ' inside them
+    let title = `${data['input-title']}`
+
     // Create the query and run it on the database
-    let query1 = `INSERT INTO books (title, stockQuantity, unitPrice) VALUES ('${data['input-title']}', '${data['input-quantity']}', '${data['input-price']}')`;
+    let query1 = `INSERT INTO books (title, stockQuantity, unitPrice) VALUES ("${title}", '${data['input-quantity']}', '${data['input-price']}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
@@ -299,14 +297,22 @@ app.get('/purchases', function(req, res)
                        
         })         
 
-    }); 
+}); 
 
 app.post('/add-purchase-form', function(req, res){
     // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
+    // handle null staff values
+    let staff = `${data['select-staff']}`
+
+    if (staff == '') {
+        staff = 'NULL'
+    }
+
+
     // Create the query and run it on the database
-    let query1 = `INSERT INTO purchases (purchaseDate, FK_staff_staffId, FK_customers_customerId) VALUES ('${data['input-purchaseDate']}', '${data['select-staff']}', '${data['select-customer']}')`;
+    let query1 = `INSERT INTO purchases (purchaseDate, FK_staff_staffId, FK_customers_customerId) VALUES ('${data['input-purchaseDate']}', ${staff}, '${data['select-customer']}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // Check to see if there was an error
@@ -353,7 +359,7 @@ app.get('/staff', function(req, res)
 
             res.render('staff', {data: rows});                  
         })                                                      
-    }); 
+}); 
 
 app.post('/add-staff-form', function(req, res){
     // Capture the incoming data and parse it back to a JS object
@@ -401,7 +407,7 @@ app.delete('/delete-staff-ajax/', function(req,res,next){
 
 app.get('/authorsBooks', function(req, res)
     {  
-        let query1 = "SELECT authorBookId AS id, FK_authors_authorId AS author_id, CONCAT(authors.lastName, ', ', authors.firstName, ' ', IFNULL(authors.middleName, '')) AS author, FK_books_bookId AS book_id, books.title FROM authorsBooks JOIN authors ON authorsBooks.FK_authors_authorId = authors.authorId JOIN books ON authorsBooks.FK_books_bookId = books.bookId;"                     
+        let query1 = "SELECT authorBookId AS id, FK_authors_authorId AS author_id, CONCAT(authors.lastName, ', ', authors.firstName, ' ', IFNULL(authors.middleName, '')) AS author, FK_books_bookId AS book_id, books.title FROM authorsBooks JOIN authors ON authorsBooks.FK_authors_authorId = authors.authorId JOIN books ON authorsBooks.FK_books_bookId = books.bookId ORDER BY authors.lastName, books.title;"                     
         let query2 = "SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, ' ', IFNULL(authors.middleName, '')) AS author FROM authors ORDER BY authors.lastName;"
         let query3 = "SELECT books.bookId AS id, books.title FROM books ORDER BY books.title;"
 
@@ -426,11 +432,37 @@ app.get('/authorsBooks', function(req, res)
 
     }); 
 
+app.post('/add-authorBook-form', function(req, res){
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Create the query and run it on the database
+    query1 = `INSERT INTO authorsBooks (FK_books_bookId, FK_authors_authorId) VALUES ('${data['select-book']}', '${data['select-author']}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // Check to see if there was an error
+        if (error) {
+
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // If there was no error, we redirect back to our root route, which automatically runs the SELECT * FROM bsg_people and
+        // presents it on the screen
+        else
+        {
+            res.redirect('/authorsBooks');
+        }
+    })
+}) 
+
+
 // purchaseBookDetails -------------------------------------------------------------------------------------------------------
     
 app.get('/purchaseBookDetails', function(req, res)
     {  
-        let query1 = "SELECT purchaseBookDetails.detailId AS id, purchaseBookDetails.FK_purchases_purchaseId AS purchase, purchaseBookDetails.quantity, purchaseBookDetails.FK_books_bookId AS book_id, books.title FROM purchaseBookDetails JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId;";              
+        let query1 = "SELECT purchaseBookDetails.detailId AS id, purchaseBookDetails.FK_purchases_purchaseId AS purchase_id, purchases.purchaseDate AS date, CONCAT(customers.lastName, ', ', customers.firstName) AS customer, CONCAT(staff.lastName, ', ', staff.firstName) AS staff, purchaseBookDetails.quantity, purchaseBookDetails.FK_books_bookId AS book_id, books.title FROM purchaseBookDetails JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId JOIN purchases ON purchaseBookDetails.FK_purchases_purchaseId = purchases.purchaseId JOIN customers ON purchases.FK_customers_customerId = customers.customerId JOIN staff ON purchases.FK_staff_staffId = staff.staffId ORDER BY purchases.purchaseDate;";              
         let query2 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM purchases JOIN customers ON purchases.FK_customers_customerId = customers.customerId ORDER BY purchases.purchaseDate;"
         let query3 = "SELECT books.bookId AS id, books.title FROM books ORDER BY books.title;"
 
@@ -453,7 +485,7 @@ app.get('/purchaseBookDetails', function(req, res)
                        
         })         
 
-    }); 
+}); 
 
 app.post('/add-details-form', function(req, res){
     // Capture the incoming data and parse it back to a JS object

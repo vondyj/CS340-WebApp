@@ -6,10 +6,13 @@
     <table>
 
       <thead>
-        <h3>An intersection table, ordered by id.</h3>
+        <h3>An intersection table ordered by purchase date.</h3>
         <tr>
           <th>detail id</th>
           <th>purchase id</th>
+          <th>date</th>
+          <th>customer</th>
+          <th>staff</th>
           <th>book id</th>
           <th>title</th>
           <th>quantity</th>
@@ -21,7 +24,10 @@
         {{#each data}}
           <tr>
             <td>{{this.id}}</td>
-            <td>{{this.purchase}}</td>
+            <td>{{this.purchase_id}}</td>
+            <td>{{moment this.date format="LL"}}</td>
+            <td>{{this.customer}}</td>
+            <td>{{this.staff}}</td>
             <td>{{this.book_id}}</td>
             <td>{{this.title}}</td>
             <td>{{this.quantity}}</td>
