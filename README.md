@@ -3,7 +3,7 @@
 Citations
 
 Overall Structure - adapted  
-George Kochera, Cortona1, Michael Curry, dmgs11 (2/28/23 - Present )'nodejs-starter-app'
+George Kochera, Cortona1, Michael Curry, dmgs11 (2/28/23 - 3/9/23 )'nodejs-starter-app'
 https://github.com/osu-cs340-ecampus/nodejs-starter-app
 
 https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX/Getting_Started
