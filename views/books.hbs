@@ -1,13 +1,17 @@
+<header>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</header>
+
 <h2>books</h2>
 
 <div class="flex-container">
 
   <div>
-    <table>
+    <table id="book-table">
       <thead>
         <h3>Books sorted by title.</h3>
         <tr>
-          <th>id</th>
+          <th id="book-id">id</th>
           <th>title</th>
           <th>author</th>
           <th>quantity</th>
@@ -20,7 +24,7 @@
 
         {{#each data}}
           <tr>
-            <td>{{this.id}}</td>
+            <td id="book-id">{{this.id}}</td>
             <td>{{this.title}}</td>
             <td>{{this.author}}</td>
             <td>{{this.quantity}}</td>
@@ -94,3 +98,6 @@
   </div>
 
 </div>
+
+
+<script src="./js/delete_book.js"></script>

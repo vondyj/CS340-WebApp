@@ -1,8 +1,7 @@
-
-function deleteAuthor(authorId) {
-    let link = '/delete-author-ajax/';
+function deleteCustomer(customerId) {
+    let link = '/delete-customer-ajax/';
     let data = {
-      id: authorId
+      id: customerId
     };
   
     $.ajax({
@@ -11,7 +10,7 @@ function deleteAuthor(authorId) {
       data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
       success: (result) => {
-          deleteRow(authorId);
+          deleteRow(customerId);
       }
     
     });
@@ -20,8 +19,3 @@ function deleteAuthor(authorId) {
     window.location.reload();
 
   }
-
-
-
-      
-      

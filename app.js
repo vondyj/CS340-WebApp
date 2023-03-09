@@ -32,7 +32,7 @@ const db = require('./database/db-connector')
 */
 
 
-// homepage 
+// homepage -------------------------------------------------------------------------------------------------------
 
 app.get('/', function(req, res)
     {
@@ -41,7 +41,7 @@ app.get('/', function(req, res)
 );
 
 
-// authors
+// authors -------------------------------------------------------------------------------------------------------
 
 app.get('/authors', function(req, res)
     {  
@@ -99,10 +99,10 @@ app.post('/add-author-form', function(req, res){
 app.delete('/delete-author-ajax/', function(req,res,next){
     let data = req.body;
     let authorId = parseInt(data.id);
-    let delete_Authors_author = `DELETE FROM authors WHERE authors.authorId = ?`;
+    let delete_author = `DELETE FROM authors WHERE authors.authorId = ?`;
   
           // Run the query
-          db.pool.query( delete_Authors_author, [authorId], function(error, rows, fields){
+          db.pool.query( delete_author, [authorId], function(error, rows, fields){
             if (error) {
                 console.log(error);
                 res.sendStatus(400);
@@ -137,7 +137,7 @@ app.put('/put-author', function(req,res,next){
   })});
 
 
-// books
+// books -------------------------------------------------------------------------------------------------------
 
 app.get('/books', function(req, res)
     {  
@@ -187,8 +187,24 @@ app.post('/add-book-form', function(req, res){
     })
 }) 
 
+app.delete('/delete-book-ajax/', function(req,res,next){
+    let data = req.body;
+    let bookId = parseInt(data.id);
+    let delete_books = `DELETE FROM books WHERE books.bookId = ?`;
+  
+  
+          // Run the 1st query
+          db.pool.query(delete_books, [bookId], function(error, rows, fields){
+              if (error) {
+  
+              // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+              console.log(error);
+              res.sendStatus(400);
+              }
+  
+  })});
 
-// customers
+// customers -------------------------------------------------------------------------------------------------------
 
 app.get('/customers', function(req, res)
     {  
@@ -225,8 +241,24 @@ app.post('/add-customer-form', function(req, res){
     })
 }) 
 
+app.delete('/delete-customer-ajax/', function(req,res,next){
+    let data = req.body;
+    let customerId = parseInt(data.id);
+    let delete_customer = `DELETE FROM customers WHERE customers.customerId = ?`;
+  
+          // Run the query
+          db.pool.query( delete_customer, [customerId], function(error, rows, fields){
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+                res.redirect('/customers');
+            }
+            
+  })});
 
-// purchases
+
+// purchases -------------------------------------------------------------------------------------------------------
 
 app.get('/purchases', function(req, res)
     {  
@@ -240,7 +272,7 @@ app.get('/purchases', function(req, res)
     }); 
 
 
-// staff
+// staff -------------------------------------------------------------------------------------------------------
 
 app.get('/staff', function(req, res)
     {  
@@ -277,7 +309,7 @@ app.post('/add-staff-form', function(req, res){
     })
 }) 
 
-// authorsBooks
+// authorsBooks -------------------------------------------------------------------------------------------------------
 
 app.get('/authorsBooks', function(req, res)
     {  
@@ -290,7 +322,7 @@ app.get('/authorsBooks', function(req, res)
     }); 
 
 
-// purchaseBookDetails   
+// purchaseBookDetails -------------------------------------------------------------------------------------------------------
     
 app.get('/purchaseBookDetails', function(req, res)
     {  
