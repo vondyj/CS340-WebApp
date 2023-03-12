@@ -34,11 +34,11 @@ updateAuthorForm.addEventListener("submit", function (e) {
   xhttp.onreadystatechange = () => {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
       // Add the new data to the table
-      window.location.replace("/authors");
     } else if (xhttp.readyState == 4 && xhttp.status != 200) {
       console.log("There was an error with the input.");
     }
   };
   //Send the request and wait
   xhttp.send(JSON.stringify(data));
+  location.reload(true);
 });
