@@ -109,7 +109,7 @@ app.put("/put-author-ajax", function (req, res, next) {
   let middleName = data.middle;
   let id = data.id;
 
-  let queryUpdateAuthor = `UPDATE authors SET author.lastName = '${lastName}', author.firstName = '${firstName}', author.middleName = '${middleName}' WHERE authors.authorId = '${id}';`;
+  let queryUpdateAuthor = `UPDATE authors SET authors.lastName = '${lastName}', authors.firstName = '${firstName}', authors.middleName = '${middleName}' WHERE authors.authorId = ${id};`;
 
   // Run the 1st query
   db.pool.query(queryUpdateAuthor, function (error, rows, fields) {
