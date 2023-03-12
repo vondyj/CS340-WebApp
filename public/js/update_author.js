@@ -7,9 +7,9 @@ updateAuthorForm.addEventListener("submit", function (e) {
 
   // Get form fields for update
   let chosenAuthor = document.getElementById("select-author");
-  let updatedFirstName = document.getElementById("input-firstName");
-  let updatedMiddleName = document.getElementById("input-middleName");
-  let updatedLastName = document.getElementById("input-lastName");
+  let updatedFirstName = document.getElementById("input-newFirstName");
+  let updatedMiddleName = document.getElementById("input-newMiddleName");
+  let updatedLastName = document.getElementById("input-newLastName");
 
   // Get values
   let chosenAuthorValue = chosenAuthor.value;
