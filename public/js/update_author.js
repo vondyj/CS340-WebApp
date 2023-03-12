@@ -10,6 +10,7 @@ updateAuthorForm.addEventListener("submit", function (e) {
   let updatedFirstName = document.getElementById("input-firstName");
   let updatedMiddleName = document.getElementById("input-middleName");
   let updatedLastName = document.getElementById("input-lastName");
+  console.log(updatedFirstName);
 
   // Get values
   let chosenAuthorValue = chosenAuthor.value;
@@ -24,7 +25,7 @@ updateAuthorForm.addEventListener("submit", function (e) {
     middle: updatedMiddleNameValue,
     last: updatedLastNameValue,
   };
-
+  console.log(data);
   //Setup AJAX
   var xhttp = new XMLHttpRequest();
   xhttp.open("PUT", "/put-author-ajax", true);
