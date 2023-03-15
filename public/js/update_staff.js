@@ -1,45 +1,33 @@
-function updateFormValues() {
-  let firstName = document.getElementById("input-newFirstName");
-  let middleName = document.getElementById("input-newMiddleName");
-  let lastName = document.getElementById("input-newLastName");
-
-  firstName.value = 'FIRST'
-  middleName.value = 'MIDDLE'
-  lastName.value =  'LAST'
-
-}
-
-
 // Get object(s) for modification
-let updateAuthorForm = document.getElementById("update-author-form");
+let updateStaffForm = document.getElementById("update-staff-form");
 
 // Modify objects we need
-updateAuthorForm.addEventListener("submit", function (e) {
+updateStaffForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
   // Get form fields for update
-  let chosenAuthor = document.getElementById("select-author");
+  let chosenStaff = document.getElementById("select-staff");
   let updatedFirstName = document.getElementById("input-newFirstName");
-  let updatedMiddleName = document.getElementById("input-newMiddleName");
   let updatedLastName = document.getElementById("input-newLastName");
+  let updatedEmail = document.getElementById("input-newEmail");
 
   // Get values
-  let chosenAuthorValue = chosenAuthor.value;
+  let chosenStaffValue = chosenStaff.value;
   let updatedFirstNameValue = updatedFirstName.value;
-  let updatedMiddleNameValue = updatedMiddleName.value;
   let updatedLastNameValue = updatedLastName.value;
+  let updatedEmailValue = updatedEmail.value;
 
   // Put our data in a JS object
   let data = {
-    id: chosenAuthorValue,
+    id: chosenStaffValue,
     first: updatedFirstNameValue,
-    middle: updatedMiddleNameValue,
     last: updatedLastNameValue,
+    email: updatedEmailValue,
   };
 
   //Setup AJAX
   var xhttp = new XMLHttpRequest();
-  xhttp.open("PUT", "/put-author-ajax", true);
+  xhttp.open("PUT", "/put-staff-ajax", true);
   xhttp.setRequestHeader("Content-type", "application/json");
 
   // Tell request how to resolve

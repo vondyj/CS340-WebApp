@@ -1,7 +1,5 @@
 <head>
-  <script
-    src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
-  ></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="./js/delete_author.js"></script>
 </head>
 
@@ -35,6 +33,7 @@
             <td><button onclick="deleteAuthor({{this.id}})">Delete</button></td>
           </tr>
         {{/each}}
+
       </tbody>
 
     </table>
@@ -86,12 +85,15 @@
   </div>
 
   <div>
+
     <h3>Update an author.</h3>
+    
     <form id="update-author-form">
       <p>Use the form below to update an authors information.</p>
 
+    
       <label for="select-author" class="col-40">Author to update: </label>
-      <select name="select-author" id="select-author">
+      <select name="select-author" id="select-author" onchange="updateFormValues()">
         <option value=""></option>
         {{#each dropDown}}
           <option value="{{this.id}}">{{this.author}}</option>

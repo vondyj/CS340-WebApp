@@ -38,6 +38,25 @@
     </table>
   </div>
 
+   <div>
+    <h3>Search for a customer.</h3>
+
+    <form id="search-customer-html" method="GET" action="/customers">
+      <p>Search by last name using the field below. Partial last names are able
+        to be searched. To reset the table, click the reset button below.</p>
+
+      <label for="input-lastName" class="col-40">Search by last name: </label>
+      <br />
+
+      <input type="text" name="lastName" id="input-lastName-html-search" />
+      <br />
+
+      <button class="submit">Submit</button>
+      <a href="/"><button>Reset</button></a>
+
+    </form>
+  </div>
+
 
 
   <div>
@@ -64,5 +83,58 @@
 
     </form>
   </div>
+
+  <div>
+
+    <h3>Update a customer.</h3>
+    
+    <form id="update-customer-form">
+      <p>Use the form below to update a customers information.</p>
+
+      <label for="select-customer" class="col-40">Customer to update: </label>
+      <select name="select-customer" id="select-customer">
+        <option value=""></option>
+        {{#each dropDown}}
+          <option value="{{this.id}}">{{this.customer}}</option>
+        {{/each}}
+      </select>
+      <br />
+
+      <label for="input-newFirstName" class="col-40">First Name: </label>
+      <input
+        type="text"
+        name="input-newFirstName"
+        id="input-newFirstName"
+        required
+      />
+      <br />
+
+      <label for="input-newLastName" class="col-40">Last Name: </label>
+      <input
+        type="text"
+        name="input-newLastName"
+        id="input-newLastName"
+        required
+      />
+      <br />
+
+      <label for="input-newEmail" class="col-40">Email: </label>
+      <input
+        type="email"
+        name="input-newEmail"
+        id="input-newEmail"
+        required
+      />
+      <br />
+
+
+      <button class="submit">Submit</button>
+    </form>
+
+    <script src="./js/update_customer.js"></script>
+
+  </div>
+
+</div>
 
 </div>

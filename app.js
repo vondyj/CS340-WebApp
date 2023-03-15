@@ -38,7 +38,7 @@ app.get("/", function (req, res) {
 
 app.get("/authors", function (req, res) {
   let query1;
-  let query2 = `SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, IFNULL(CONCAT(' ', authors.middleName), "")) AS author FROM authors ORDER BY authors.lastName;`;
+  let query2 = `SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, IFNULL(CONCAT(' ', authors.middleName), "")) AS author, authors.firstName AS first, authors.middleName AS middle, authors.lastName AS last FROM authors ORDER BY authors.lastName;`;
 
   // If there is no query string, we just perform a basic SELECT
   if (req.query.lastName === undefined) {
@@ -193,13 +193,31 @@ app.delete("/delete-book-ajax/", function (req, res, next) {
 // customers -------------------------------------------------------------------------------------------------------
 
 app.get("/customers", function (req, res) {
-  let query1 =
-    "SELECT customers.customerId AS id, customers.lastName AS last, customers.firstName AS first, customers.email AS email FROM customers ORDER BY customers.lastName ASC;";
+  
+  let query1;
+  let query2 = "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM customers ORDER BY customers.lastName;";
 
+  // If there is no query string, we just perform a basic SELECT
+  if (req.query.lastName === undefined) {
+    query1 = "SELECT customers.customerId AS id, customers.lastName AS last, customers.firstName AS first, customers.email AS email FROM customers ORDER BY customers.lastName ASC;";
+  }
+
+  // If there is a query string, we assume this is a search, and return desired results
+  else {
+    query1 = `SELECT customers.customerId AS id, customers.lastName AS last, customers.firstName AS first, customers.email AS email FROM customers WHERE customers.lastName LIKE "${req.query.lastName}%" ORDER BY customers.lastName ASC;`;
+  }
+  
   db.pool.query(query1, function (error, rows, fields) {
     // Execute the query
 
-    res.render("customers", { data: rows });
+    let customers1 = rows;
+
+    db.pool.query(query2, function (error, rows, fields) {
+
+        let customers2 = rows;
+
+        res.render("customers", { data: customers1, dropDown: customers2 });
+    });
   });
 });
 
@@ -238,6 +256,27 @@ app.delete("/delete-customer-ajax/", function (req, res, next) {
     } else {
       res.redirect("/customers");
     }
+  });
+});
+
+app.put("/put-customer-ajax", function (req, res, next) {
+  let data = req.body;
+
+  let lastName = data.last;
+  let firstName = data.first;
+  let email = data.email;
+  let id = data.id;
+
+  let queryUpdateCustomer = `UPDATE customers SET customers.lastName = '${lastName}', customers.firstName = '${firstName}', customers.email = '${email}' WHERE customers.customerId = ${id};`;
+
+  // Run the 1st query
+  db.pool.query(queryUpdateCustomer, function (error, rows, fields) {
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    }
+
   });
 });
 
@@ -319,13 +358,22 @@ app.delete("/delete-purchase-ajax/", function (req, res, next) {
 // staff -------------------------------------------------------------------------------------------------------
 
 app.get("/staff", function (req, res) {
-  let query1 =
-    "SELECT staff.staffId AS id, staff.lastName AS last, staff.firstName AS first, staff.email AS email FROM staff ORDER BY staff.lastName ASC;";
+  
+  let query1 = "SELECT staff.staffId AS id, staff.lastName AS last, staff.firstName AS first, staff.email AS email FROM staff ORDER BY staff.lastName ASC;";
+  let query2 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS staff FROM staff ORDER BY staff.lastName;";
 
   db.pool.query(query1, function (error, rows, fields) {
     // Execute the query
+    
+    let staff1 = rows;
 
-    res.render("staff", { data: rows });
+    db.pool.query(query2, function (error, rows, fields) {
+
+      let staff2 = rows;
+
+      res.render("staff", { data: staff1, dropDown: staff2 });
+
+    });
   });
 });
 
@@ -364,6 +412,27 @@ app.delete("/delete-staff-ajax/", function (req, res, next) {
     } else {
       res.redirect("/staff");
     }
+  });
+});
+
+app.put("/put-staff-ajax", function (req, res, next) {
+  let data = req.body;
+
+  let lastName = data.last;
+  let firstName = data.first;
+  let email = data.email;
+  let id = data.id;
+
+  let queryUpdateStaff = `UPDATE staff SET staff.lastName = '${lastName}', staff.firstName = '${firstName}', staff.email = '${email}' WHERE staff.staffId = ${id};`;
+
+  // Run the 1st query
+  db.pool.query(queryUpdateStaff, function (error, rows, fields) {
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    }
+
   });
 });
 

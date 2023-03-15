@@ -166,6 +166,7 @@ button, .submit, .update-submit {
   font-weight: 500;
   font-family: 'Poppins', sans-serif;
   box-shadow: none;
+  cursor: pointer;
 }
 
 .submit {
