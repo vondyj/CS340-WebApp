@@ -360,7 +360,7 @@ app.delete("/delete-purchase-ajax/", function (req, res, next) {
 app.get("/staff", function (req, res) {
   
   let query1 = "SELECT staff.staffId AS id, staff.lastName AS last, staff.firstName AS first, staff.email AS email FROM staff ORDER BY staff.lastName ASC;";
-  let query2 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS staff FROM staff ORDER BY staff.lastName;";
+  let query2 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS staff, staff.firstName AS first, staff.lastName AS last, staff.email FROM staff ORDER BY staff.lastName;";
 
   db.pool.query(query1, function (error, rows, fields) {
     // Execute the query

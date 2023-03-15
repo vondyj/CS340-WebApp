@@ -68,10 +68,10 @@
       <p>Use the form below to update a staff member's information.</p>
 
       <label for="select-staff" class="col-40">Staff Member: </label>
-      <select name="select-staff" id="select-staff">
+      <select name="select-staff" id="select-staff" onchange="updateFormValues()">
         <option value=""></option>
         {{#each dropDown}}
-          <option value="{{this.id}}">{{this.staff}}</option>
+          <option value="{{this.id}},{{this.first}},{{this.last}},{{this.email}}">{{this.staff}}</option>
         {{/each}}
       </select>
       <br />

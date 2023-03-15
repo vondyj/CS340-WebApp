@@ -28,8 +28,11 @@ updateAuthorForm.addEventListener("submit", function (e) {
   let updatedMiddleName = document.getElementById("input-newMiddleName");
   let updatedLastName = document.getElementById("input-newLastName");
 
+  let author = chosenAuthor.value
+  let authorValuesArray = author.split(",")
+
   // Get values
-  let chosenAuthorValue = chosenAuthor.value[0];
+  let chosenAuthorValue = authorValuesArray[0];
   let updatedFirstNameValue = updatedFirstName.value;
   let updatedMiddleNameValue = updatedMiddleName.value;
   let updatedLastNameValue = updatedLastName.value;
