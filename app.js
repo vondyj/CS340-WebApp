@@ -109,7 +109,7 @@ app.put("/put-author-ajax", function (req, res, next) {
   let middleName = data.middle;
   let id = data.id;
 
-  let queryUpdateAuthor = `UPDATE authors SET authors.lastName = '${lastName}', authors.firstName = '${firstName}', authors.middleName = '${middleName}' WHERE authors.authorId = ${id};`;
+  let queryUpdateAuthor = `UPDATE authors SET authors.lastName = '${lastName}', authors.firstName = '${firstName}', authors.middleName = '${middleName}' WHERE authors.authorId = '${id}';`;
 
   // Run the 1st query
   db.pool.query(queryUpdateAuthor, function (error, rows, fields) {
@@ -195,7 +195,7 @@ app.delete("/delete-book-ajax/", function (req, res, next) {
 app.get("/customers", function (req, res) {
   
   let query1;
-  let query2 = "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM customers ORDER BY customers.lastName;";
+  let query2 = "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS customer, customers.firstName AS first, customers.lastName AS last, customers.email FROM customers ORDER BY customers.lastName;";
 
   // If there is no query string, we just perform a basic SELECT
   if (req.query.lastName === undefined) {
@@ -267,7 +267,7 @@ app.put("/put-customer-ajax", function (req, res, next) {
   let email = data.email;
   let id = data.id;
 
-  let queryUpdateCustomer = `UPDATE customers SET customers.lastName = '${lastName}', customers.firstName = '${firstName}', customers.email = '${email}' WHERE customers.customerId = ${id};`;
+  let queryUpdateCustomer = `UPDATE customers SET customers.lastName = '${lastName}', customers.firstName = '${firstName}', customers.email = '${email}' WHERE customers.customerId = '${id}';`;
 
   // Run the 1st query
   db.pool.query(queryUpdateCustomer, function (error, rows, fields) {

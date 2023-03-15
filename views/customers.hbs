@@ -92,10 +92,10 @@
       <p>Use the form below to update a customers information.</p>
 
       <label for="select-customer" class="col-40">Customer to update: </label>
-      <select name="select-customer" id="select-customer">
+      <select name="select-customer" id="select-customer" onchange="updateFormValues()">
         <option value=""></option>
         {{#each dropDown}}
-          <option value="{{this.id}}">{{this.customer}}</option>
+          <option value="{{this.id}},{{this.first}},{{this.last}},{{this.email}}">{{this.customer}}</option>
         {{/each}}
       </select>
       <br />

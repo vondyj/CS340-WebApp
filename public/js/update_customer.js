@@ -1,3 +1,19 @@
+function updateFormValues() {
+
+  let firstName = document.getElementById("input-newFirstName");
+  let lastName = document.getElementById("input-newLastName");
+  let email = document.getElementById("input-newEmail")
+
+  let select = document.getElementById("select-customer")
+  let selectValue = select.value
+  let fillValues = selectValue.split(",")
+
+  firstName.value = fillValues[1]
+  lastName.value =  fillValues[2]
+  email.value = fillValues[3]
+
+}
+
 // Get object(s) for modification
 let updateCustomerForm = document.getElementById("update-customer-form");
 
@@ -11,8 +27,11 @@ updateCustomerForm.addEventListener("submit", function (e) {
   let updatedLastName = document.getElementById("input-newLastName");
   let updatedEmail = document.getElementById("input-newEmail");
 
+  let customer = chosenCustomer.value
+  let customerValuesArray = customer.split(",")
+
   // Get values
-  let chosenCustomerValue = chosenCustomer.value;
+  let chosenCustomerValue = customerValuesArray[0];
   let updatedFirstNameValue = updatedFirstName.value;
   let updatedLastNameValue = updatedLastName.value;
   let updatedEmailValue = updatedEmail.value;
