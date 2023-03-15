@@ -26,7 +26,7 @@
 
         {{#each data}}
           <tr>
-            <td>{{this.id}}</td>
+            <td id="author-id">{{this.id}}</td>
             <td>{{this.last}}</td>
             <td>{{this.first}}</td>
             <td>{{this.middle}}</td>
@@ -96,7 +96,7 @@
       <select name="select-author" id="select-author" onchange="updateFormValues()">
         <option value=""></option>
         {{#each dropDown}}
-          <option value="{{this.id}}">{{this.author}}</option>
+          <option value="{{this.id}},{{this.first}},{{this.middle}},{{this.last}}">{{this.author}}</option>
         {{/each}}
       </select>
       <br />

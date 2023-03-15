@@ -1,11 +1,16 @@
 function updateFormValues() {
+
   let firstName = document.getElementById("input-newFirstName");
   let middleName = document.getElementById("input-newMiddleName");
   let lastName = document.getElementById("input-newLastName");
 
-  firstName.value = 'FIRST'
-  middleName.value = 'MIDDLE'
-  lastName.value =  'LAST'
+  let select = document.getElementById("select-author")
+  let selectValue = select.value
+  let myArray = selectValue.split(",")
+
+  firstName.value = myArray[1]
+  middleName.value = myArray[2]
+  lastName.value =  myArray[3]
 
 }
 
@@ -24,7 +29,7 @@ updateAuthorForm.addEventListener("submit", function (e) {
   let updatedLastName = document.getElementById("input-newLastName");
 
   // Get values
-  let chosenAuthorValue = chosenAuthor.value;
+  let chosenAuthorValue = chosenAuthor.value[0];
   let updatedFirstNameValue = updatedFirstName.value;
   let updatedMiddleNameValue = updatedMiddleName.value;
   let updatedLastNameValue = updatedLastName.value;
