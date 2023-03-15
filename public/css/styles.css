@@ -156,7 +156,7 @@ label {
 
 /* buttons */
 
-button, .submit {
+button, .submit, .update-submit {
   background-color: #663300;
   color: #FBFAF5;
   padding: 8px 12px 8px 12px;
