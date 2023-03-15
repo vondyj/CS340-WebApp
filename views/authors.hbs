@@ -1,7 +1,8 @@
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="./js/delete_author.js"></script>
-<script src="./js/update_author.js"></script>
+  <script
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"
+  ></script>
+  <script src="./js/delete_author.js"></script>
 </head>
 
 <h2>authors</h2>
@@ -44,12 +45,13 @@
     <h3>Search for an author.</h3>
 
     <form id="search-author-html" method="GET" action="/authors">
-      <p>Search by last name using the field below. Partial last names are able to be searched. To reset the table, click the reset button below.</p>
+      <p>Search by last name using the field below. Partial last names are able
+        to be searched. To reset the table, click the reset button below.</p>
 
       <label for="input-lastName" class="col-40">Search by last name: </label>
       <br />
 
-      <input type="text" name="lastName" id="input-lastName-html-search"/>
+      <input type="text" name="lastName" id="input-lastName-html-search" />
       <br />
 
       <button class="submit">Submit</button>
@@ -92,21 +94,31 @@
       <select name="select-author" id="select-author">
         <option value=""></option>
         {{#each dropDown}}
-        <option value="{{this.id}}">{{this.author}}</option>
+          <option value="{{this.id}}">{{this.author}}</option>
         {{/each}}
       </select>
       <br />
 
       <label for="input-firstName" class="col-40">First Name: </label>
-      <input type="text" name="input-firstName" id="input-firstName" required />
+      <input
+        type="text"
+        name="input-firstName"
+        id="input-newFirstName"
+        required
+      />
       <br />
 
       <label for="input-middleName" class="col-40">Middle Name: </label>
-      <input type="text" name="input-middleName" id="input-middleName" />
+      <input type="text" name="input-middleName" id="input-newMiddleName" />
       <br />
 
       <label for="input-lastName" class="col-40">Last Name: </label>
-      <input type="text" name="input-lastName" id="input-lastName" required />
+      <input
+        type="text"
+        name="input-lastName"
+        id="input-newLastName"
+        required
+      />
       <br />
 
       <button class="submit">Submit</button>
@@ -116,3 +128,4 @@
 
 </div>
 
+<script src="./js/update_author.js"></script>

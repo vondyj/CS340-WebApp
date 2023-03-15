@@ -1,27 +1,44 @@
+// Get object(s) for modification
+let updateAuthorForm = document.getElementById("update-author-form");
 
+// Modify objects we need
+updateAuthorForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-function updateAuthor(author)
-    // Put our data we want to send in a javascript object
-    let data = {
-        last: author.last,
-        first: author.first,
-        middle: author.middle,
-        id: author.id
-    };
+  // Get form fields for update
+  let chosenAuthor = document.getElementById("select-author");
+  let updatedFirstName = document.getElementById("input-newFirstName");
+  let updatedMiddleName = document.getElementById("input-newMiddleName");
+  let updatedLastName = document.getElementById("input-newLastName");
 
-    // Setup our AJAX request
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("PUT", "/put-author", true);
-    xhttp.setRequestHeader("Content-type", "application/json");
+  // Get values
+  let chosenAuthorValue = chosenAuthor.value;
+  let updatedFirstNameValue = updatedFirstName.value;
+  let updatedMiddleNameValue = updatedMiddleName.value;
+  let updatedLastNameValue = updatedLastName.value;
 
-    // Tell our AJAX request how to resolve
-    xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 204) {
+  // Put our data in a JS object
+  let data = {
+    id: chosenAuthorValue,
+    first: updatedFirstNameValue,
+    middle: updatedMiddleNameValue,
+    last: updatedLastNameValue,
+  };
 
-        }
-        else if (xhttp.readyState == 4 && xhttp.status != 204) {
-            console.log("There was an error with the input.")
-        }
+  //Setup AJAX
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("PUT", "/put-author-ajax", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+
+  // Tell request how to resolve
+  xhttp.onreadystatechange = () => {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      // Add the new data to the table
+    } else if (xhttp.readyState == 4 && xhttp.status != 200) {
+      console.log("There was an error with the input.");
     }
-    // Send the request and wait for the response
-    xhttp.send(JSON.stringify(data));
+  };
+  //Send the request and wait
+  xhttp.send(JSON.stringify(data));
+  location.reload(true);
+});
