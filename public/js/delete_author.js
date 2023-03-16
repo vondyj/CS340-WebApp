@@ -16,16 +16,35 @@ function deleteAuthor(authorId) {
     
     });
 
+    deleteDropDownMenu(authorId);
 
   }
 
 $("#author-table").on('click', '.delete', function(e) {
     let whichtr = $(this).closest("tr");
 
-    whichtr.remove();      
+    whichtr.remove();   
 });
 
-// need to figure out how to update dropdown menu
+function deleteDropDownMenu(authorId){
+  
+  let selectMenu = document.getElementById("select-author");
+  
+  for (let i = 0; i < selectMenu.length; i++){
+
+    let selectMenuValue = selectMenu.options[i].value
+    let valueArray = selectMenuValue.split(",")
+
+    
+    if (String(valueArray[0]) === String(authorId)) {
+
+      selectMenu[i].remove();
+      
+      break;
+    } 
+
+  }
+}
 
 
       

@@ -15,7 +15,7 @@ function deleteStaff(staffId) {
     
     });
 
-
+    deleteDropDownMenu(staffId);
 
   }
 
@@ -25,4 +25,22 @@ $("#staff-table").on('click', '.delete', function(e) {
     whichtr.remove();      
 });
 
-// need to figure out how to update dropdown menu
+function deleteDropDownMenu(staffId){
+  
+  let selectMenu = document.getElementById("select-staff");
+  
+  for (let i = 0; i < selectMenu.length; i++){
+
+    let selectMenuValue = selectMenu.options[i].value
+    let valueArray = selectMenuValue.split(",")
+
+    
+    if (String(valueArray[0]) === String(staffId)) {
+
+      selectMenu[i].remove();
+      
+      break;
+    } 
+
+  }
+}

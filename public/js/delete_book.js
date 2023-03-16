@@ -15,7 +15,7 @@ function deleteBook(bookId) {
 
     });
 
-
+    deleteDropDownMenu(bookId);
 
   }
 
@@ -25,4 +25,22 @@ $("#book-table").on('click', '.delete', function(e) {
     whichtr.remove();      
 });
 
-// need to figure out how to update dropdown menu
+function deleteDropDownMenu(bookId){
+  
+  let selectMenu = document.getElementById("select-book");
+  
+  for (let i = 0; i < selectMenu.length; i++){
+
+    let selectMenuValue = selectMenu.options[i].value
+    let valueArray = selectMenuValue.split(",")
+
+    
+    if (String(valueArray[0]) === String(bookId)) {
+
+      selectMenu[i].remove();
+      
+      break;
+    } 
+
+  }
+}

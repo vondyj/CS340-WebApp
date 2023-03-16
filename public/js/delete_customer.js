@@ -15,7 +15,7 @@ function deleteCustomer(customerId) {
     
     });
 
-
+    deleteDropDownMenu(customerId);
     
   }
   
@@ -25,4 +25,22 @@ $("#customer-table").on('click', '.delete', function(e) {
     whichtr.remove();      
 });
 
-// need to figure out how to update dropdown menu
+function deleteDropDownMenu(customerId){
+  
+  let selectMenu = document.getElementById("select-customer");
+  
+  for (let i = 0; i < selectMenu.length; i++){
+
+    let selectMenuValue = selectMenu.options[i].value
+    let valueArray = selectMenuValue.split(",")
+
+    
+    if (String(valueArray[0]) === String(customerId)) {
+
+      selectMenu[i].remove();
+      
+      break;
+    } 
+
+  }
+}

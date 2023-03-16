@@ -156,6 +156,14 @@ label {
   margin-top: 6px;
 }
 
+.line {
+  text-align: left;
+  float: left;
+  width: 90%;
+  margin-top: 6px;
+  border: 1px solid #663300;
+}
+
 /* buttons */
 
 button, .submit, .update-submit {
