@@ -18,9 +18,8 @@
           <th>purchase date</th>
           <th>customer</th>
           <th>staff</th>
-          <th>book title</th>
-          <th>copies purchased</th>
-          <th>line total</th>
+          <th>number of items sold</th>
+          <th>order total</th>
           <th></th>
         </tr>
       </thead>
@@ -33,9 +32,8 @@
             <td>{{moment this.date format="LL"}}</td>
             <td>{{this.customer}}</td>
             <td>{{this.staff}}</td>
-            <td>{{this.title}}</td>
-            <td>{{this.copies}}</td>
-            <td>{{this.total}}</td>
+            <td>{{this.number_sold}}</td>
+            <td>{{this.order_total}}</td>
             <td><button id="delete" class="delete" onclick="deletePurchase({{this.id}})">Delete</button></td>
           </tr>
         {{/each}}

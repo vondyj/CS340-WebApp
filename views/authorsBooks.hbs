@@ -1,9 +1,13 @@
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
 <h2>authorsBooks</h2>
 
 <div class="flex-container">
 
   <div>
-    <table>
+    <table id="author-book-table">
       <thead>
         <h3>An intersection table sorted by author last name then by book title.</h3>
         <tr>
@@ -12,6 +16,7 @@
           <th>author</th>
           <th>book id</th>
           <th>title</th>
+          <th></th>
         </tr>
       </thead>
 
@@ -24,10 +29,14 @@
             <td>{{this.author}}</td>
             <td>{{this.book_id}}</td>
             <td>{{this.title}}</td>
+            <td><button id="delete" class="delete" onclick="deleteAuthorBook({{this.id}})">Delete</button></td>
           </tr>
         {{/each}}
       </tbody>
     </table>
+
+    <script src="./js/delete_authorBook.js"></script>
+
   </div>
 
   <div>

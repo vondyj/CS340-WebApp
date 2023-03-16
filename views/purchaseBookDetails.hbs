@@ -1,9 +1,13 @@
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+
 <h2>purchaseBookDetails</h2>
 
 <div class="flex-container">
 
   <div>
-    <table>
+    <table id="purchase-book-detail-table"> 
 
       <thead>
         <h3>An intersection table ordered by purchase date.</h3>
@@ -16,6 +20,7 @@
           <th>book id</th>
           <th>title</th>
           <th>quantity</th>
+          <th></th>
         </tr>
       </thead>
 
@@ -31,10 +36,14 @@
             <td>{{this.book_id}}</td>
             <td>{{this.title}}</td>
             <td>{{this.quantity}}</td>
+            <td><button id="delete" class="delete" onclick="deletePurchaseBookDetail({{this.id}})">Delete</button></td>
           </tr>
         {{/each}}
       </tbody>
     </table>
+
+    <script src="./js/delete_purchaseBookDetail.js"></script>
+
   </div>
 
   <div>
@@ -53,18 +62,20 @@
       </select>
       <br />
 
+      <label for="select-book" class="col-40">Book: </label>
+      <select name="select-book" id="select-book" onchange="updateMax()" required>
+       <option value=""></option>
+        {{#each dropDown2}}
+        <option value="{{this.id}},{{this.quantity}}">{{this.title}}</option>
+        {{/each}}
+      </select>
+      <br />
+
       <label for="input-quantity" class="col-40">Quantity: </label>
       <input type="number" name="input-quantity" id="input-quantity" min="1" required />
       <br />
 
-      <label for="select-book" class="col-40">Book: </label>
-      <select name="select-book" id="select-book" required>
-       <option value=""></option>
-        {{#each dropDown2}}
-        <option value="{{this.id}}">{{this.title}}</option>
-        {{/each}}
-      </select>
-      <br />
+      <script src="./js/update_purchase_max.js"></script>
 
       <button class="submit">Submit</button>
 

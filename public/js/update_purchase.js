@@ -5,14 +5,8 @@ function updateFormValues() {
     let date = document.getElementById("input-newDate");
   
     let select = document.getElementById("select-purchase");
-
     let selectValue = select.value;
-
-    console.log(selectValue);
-
     let fillValues = selectValue.split(",");
-
-    console.log(fillValues);
   
     customer.value = fillValues[1];
     staff.value = fillValues[2];

@@ -34,6 +34,8 @@ app.get("/", function (req, res) {
   res.render("index");
 });
 
+
+
 // authors -------------------------------------------------------------------------------------------------------
 
 app.get("/authors", function (req, res) {
@@ -124,6 +126,8 @@ app.put("/put-author-ajax", function (req, res, next) {
   });
 });
 
+
+
 // books -------------------------------------------------------------------------------------------------------
 
 app.get("/books", function (req, res) {
@@ -212,6 +216,8 @@ app.put("/put-book-ajax", function (req, res, next) {
     // table on the front-end
   });
 });
+
+
 
 // customers -------------------------------------------------------------------------------------------------------
 
@@ -303,11 +309,13 @@ app.put("/put-customer-ajax", function (req, res, next) {
   });
 });
 
+
+
 // purchases -------------------------------------------------------------------------------------------------------
 
 app.get("/purchases", function (req, res) {
   
-  let query1 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName,', ', customers.firstName) AS customer, CONCAT(staff.lastName,', ', staff.firstName) AS 'staff', books.title, purchaseBookDetails.quantity AS 'copies', CONCAT('$', (books.unitPrice * purchaseBookDetails.quantity)) AS total FROM purchases LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId LEFT JOIN customers ON purchases.FK_customers_customerId = customers.customerId LEFT JOIN purchaseBookDetails ON purchases.purchaseId = purchaseBookDetails.FK_purchases_purchaseId LEFT JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId ORDER BY purchases.purchaseDate ASC;";
+  let query1 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName,', ', customers.firstName) AS customer, CONCAT(staff.lastName,', ', staff.firstName) AS staff, SUM(purchaseBookDetails.quantity) AS number_sold, CONCAT('$', SUM(books.unitPrice * purchaseBookDetails.quantity)) AS order_total FROM purchases LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId JOIN customers ON purchases.FK_customers_customerId = customers.customerId LEFT JOIN purchaseBookDetails ON purchases.purchaseId = purchaseBookDetails.FK_purchases_purchaseId LEFT JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId GROUP BY purchases.purchaseId ORDER BY purchases.purchaseDate ASC;";
   let query2 = "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM customers ORDER BY customers.lastName;";
   let query3 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS staff FROM staff ORDER BY staff.lastName;";
   let query4 = "SELECT purchases.purchaseId AS id, CONCAT(customers.lastName,', ', customers.firstName) AS customerName, customers.customerId, staff.staffId, purchases.purchaseDate AS date FROM purchases LEFT JOIN customers ON purchases.FK_customers_customerId = customers.customerId LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId ORDER BY purchases.purchaseDate;";
@@ -392,7 +400,11 @@ app.put("/put-purchase-ajax", function (req, res, next) {
   let customer = data.customer;
   let id = data.id;
 
-  let queryUpdateStaff = `UPDATE purchases SET purchases.purchaseDate = '${date}', purchases.FK_staff_staffId = '${staff}', purchases.FK_customers_customerId = '${customer}' WHERE purchases.purchaseId = ${id};`;
+  if (String(staff) === '') {
+    staff = "NULL"
+  }
+
+  let queryUpdateStaff = `UPDATE purchases SET purchases.purchaseDate = '${date}', purchases.FK_staff_staffId = ${staff}, purchases.FK_customers_customerId = '${customer}' WHERE purchases.purchaseId = ${id};`;
 
   // Run the 1st query
   db.pool.query(queryUpdateStaff, function (error, rows, fields) {
@@ -404,6 +416,8 @@ app.put("/put-purchase-ajax", function (req, res, next) {
 
   });
 });
+
+
 
 // staff -------------------------------------------------------------------------------------------------------
 
@@ -497,6 +511,8 @@ app.put("/put-staff-ajax", function (req, res, next) {
   });
 });
 
+
+
 // authorsBooks -------------------------------------------------------------------------------------------------------
 
 app.get("/authorsBooks", function (req, res) {
@@ -550,15 +566,30 @@ app.post("/add-authorBook-form", function (req, res) {
   });
 });
 
+app.delete("/delete-author-book-ajax/", function (req, res, next) {
+  let data = req.body;
+  let authorBookId = parseInt(data.id);
+  let delete_author_book = `DELETE FROM authorsBooks WHERE authorsBooks.authorBookId = ?`;
+
+  // Run the query
+  db.pool.query(delete_author_book, [authorBookId], function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.redirect("/authorsBooks");
+    }
+  });
+});
+
+
+
 // purchaseBookDetails -------------------------------------------------------------------------------------------------------
 
 app.get("/purchaseBookDetails", function (req, res) {
-  let query1 =
-    "SELECT purchaseBookDetails.detailId AS id, purchaseBookDetails.FK_purchases_purchaseId AS purchase_id, purchases.purchaseDate AS date, CONCAT(customers.lastName, ', ', customers.firstName) AS customer, CONCAT(staff.lastName, ', ', staff.firstName) AS staff, purchaseBookDetails.quantity, purchaseBookDetails.FK_books_bookId AS book_id, books.title FROM purchaseBookDetails LEFT JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId LEFT JOIN purchases ON purchaseBookDetails.FK_purchases_purchaseId = purchases.purchaseId LEFT JOIN customers ON purchases.FK_customers_customerId = customers.customerId LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId ORDER BY purchases.purchaseDate;";
-  let query2 =
-    "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM purchases JOIN customers ON purchases.FK_customers_customerId = customers.customerId ORDER BY purchases.purchaseDate;";
-  let query3 =
-    "SELECT books.bookId AS id, books.title FROM books ORDER BY books.title;";
+  let query1 = "SELECT purchaseBookDetails.detailId AS id, purchaseBookDetails.FK_purchases_purchaseId AS purchase_id, purchases.purchaseDate AS date, CONCAT(customers.lastName, ', ', customers.firstName) AS customer, CONCAT(staff.lastName, ', ', staff.firstName) AS staff, purchaseBookDetails.quantity, purchaseBookDetails.FK_books_bookId AS book_id, books.title FROM purchaseBookDetails LEFT JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId LEFT JOIN purchases ON purchaseBookDetails.FK_purchases_purchaseId = purchases.purchaseId LEFT JOIN customers ON purchases.FK_customers_customerId = customers.customerId LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId ORDER BY purchases.purchaseDate;";
+  let query2 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM purchases JOIN customers ON purchases.FK_customers_customerId = customers.customerId ORDER BY purchases.purchaseDate;";
+  let query3 = "SELECT books.bookId AS id, books.stockQuantity AS quantity, books.title FROM books ORDER BY books.title;";
 
   db.pool.query(query1, function (error, rows, fields) {
     // Execute the query
@@ -602,6 +633,25 @@ app.post("/add-details-form", function (req, res) {
     }
   });
 });
+
+app.delete("/delete-purchase-book-detail-ajax/", function (req, res, next) {
+  let data = req.body;
+  let purchaseBookDetailId = parseInt(data.id);
+  let delete_author_book = `DELETE FROM purchaseBookDetails WHERE purchaseBookDetails.detailId = ?`;
+
+  // Run the query
+  db.pool.query(delete_author_book, [purchaseBookDetailId], function (error, rows, fields) {
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.redirect("/purchaseBookDetails");
+    }
+  });
+});
+
+
+
 /*
     LISTENER
 */
