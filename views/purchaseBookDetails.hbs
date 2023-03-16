@@ -56,7 +56,7 @@
       <label for="select-purchase" class="col-40">Purchase: </label>
       <select name="select-purchase" id="select-purchase" required>
        <option value=""></option>
-        {{#each dropDown1}}
+        {{#each dropDownPurchases}}
         <option value="{{this.id}}">{{moment this.date format="l"}} - {{this.customer}}</option>
         {{/each}}
       </select>
@@ -65,7 +65,7 @@
       <label for="select-book" class="col-40">Book: </label>
       <select name="select-book" id="select-book" onchange="updateMax()" required>
        <option value=""></option>
-        {{#each dropDown2}}
+        {{#each dropDownBooks}}
         <option value="{{this.id}},{{this.quantity}}">{{this.title}}</option>
         {{/each}}
       </select>

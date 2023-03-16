@@ -54,18 +54,13 @@
         click submit.</p>
 
       <label for="input-purchaseDate" class="col-40">Purchase Date: </label>
-      <input
-        type="date"
-        name="input-purchaseDate"
-        id="input-purchaseDate"
-        required
-      />
+      <input type="date" name="input-purchaseDate" id="input-purchaseDate" required>
       <br />
 
       <label for="select-customer" class="col-40">Customer: </label>
-      <select name="select-customer" id="select-customer">
+      <select name="select-customer" id="select-customer" required>
         <option value=""></option>
-        {{#each dropDown1}}
+        {{#each dropDownCustomers}}
           <option value="{{this.id}}">{{this.customer}}</option>
         {{/each}}
       </select>
@@ -74,7 +69,7 @@
       <label for="select-staff" class="col-40">Staff (optional): </label>
       <select name="select-staff" id="select-staff">
         <option value=""></option>
-        {{#each dropDown2}}
+        {{#each dropDownStaff}}
           <option value="{{this.id}}">{{this.staff}}</option>
         {{/each}}
       </select>
@@ -95,7 +90,7 @@
       <label for="select-purchase" class="col-40">Purchase to update: </label>
       <select name="select-purchase" id="select-purchase" onchange="updateFormValues()">
         <option value=""></option>
-        {{#each dropDown3}}
+        {{#each dropDownPurchases}}
           <option value="{{this.id}},{{this.customerId}},{{this.staffId}},{{moment this.date format="YYYY-MM-DD"}}">{{moment this.date format="l"}} - {{this.customerName}}</option>
         {{/each}}
       </select>
@@ -117,7 +112,7 @@
       <label for="select-newStaff" class="col-40">Staff (optional): </label>
       <select name="select-newStaff" id="select-newStaff">
         <option value=""></option>
-        {{#each dropDown2}}
+        {{#each dropDownStaff}}
           <option value="{{this.id}}">{{this.staff}}</option>
         {{/each}}
       </select>
@@ -126,7 +121,7 @@
       <label for="select-newCustomer" class="col-40">Customer: </label>
       <select name="select-newCustomer" id="select-newCustomer" required>
         <option value=""></option>
-        {{#each dropDown1}}
+        {{#each dropDownCustomers}}
           <option value="{{this.id}}">{{this.customer}}</option>
         {{/each}}
       </select>
