@@ -1,6 +1,5 @@
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="./js/delete_purchase.js"></script>
 </head>
 
 <h2>purchases</h2>
@@ -8,7 +7,8 @@
 <div class="flex-container">
 
   <div>
-    <table>
+
+    <table id="purchase-table">
 
       <thead>
         <h3>Purchases sorted by date.</h3>
@@ -36,12 +36,15 @@
             <td>{{this.title}}</td>
             <td>{{this.copies}}</td>
             <td>{{this.total}}</td>
-            <td><button onclick="deletePurchase({{this.id}})">Delete</button></td>
+            <td><button id="delete" class="delete" onclick="deletePurchase({{this.id}})">Delete</button></td>
           </tr>
         {{/each}}
 
       </tbody>
     </table>
+
+  <script src="./js/delete_purchase.js"></script>
+
   </div>
 
   <div>
@@ -82,6 +85,57 @@
       <button class="submit">Submit</button>
 
     </form>
+  </div>
+
+   <div>
+
+    <h3>Update a purchase.</h3>
+    
+    <form id="update-purchase-form">
+      <p>Use the form below to update a purchase.</p>
+
+      <label for="select-purchase" class="col-40">Purchase to update: </label>
+      <select name="select-purchase" id="select-purchase" onchange="updateFormValues()">
+        <option value=""></option>
+        {{#each dropDown3}}
+          <option value="{{this.id}},{{this.customerId}},{{this.staffId}},{{moment this.date format="YYYY-MM-DD"}}">{{moment this.date format="l"}} - {{this.customerName}}</option>
+        {{/each}}
+      </select>
+      <br />
+
+      <label for="input-newDate" class="col-40">Date: </label>
+      <input
+        type="date"
+        name="input-newDate"
+        id="input-newDate"
+        required
+      />
+      <br />
+
+      <label for="select-newStaff" class="col-40">Staff (optional): </label>
+      <select name="select-newStaff" id="select-newStaff">
+        <option value=""></option>
+        {{#each dropDown2}}
+          <option value="{{this.id}}">{{this.staff}}</option>
+        {{/each}}
+      </select>
+      <br />
+
+      <label for="select-newCustomer" class="col-40">Customer: </label>
+      <select name="select-newCustomer" id="select-newCustomer" required>
+        <option value=""></option>
+        {{#each dropDown1}}
+          <option value="{{this.id}}">{{this.customer}}</option>
+        {{/each}}
+      </select>
+      <br />
+
+
+      <button class="submit">Submit</button>
+    </form>
+
+    <script src="./js/update_purchase.js"></script>
+
   </div>
 
 </div>

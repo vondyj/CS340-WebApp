@@ -14,7 +14,6 @@ function updateFormValues() {
 
 }
 
-
 // Get object(s) for modification
 let updateAuthorForm = document.getElementById("update-author-form");
 
@@ -53,12 +52,18 @@ updateAuthorForm.addEventListener("submit", function (e) {
   // Tell request how to resolve
   xhttp.onreadystatechange = () => {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
+
       // Add the new data to the table
+
     } else if (xhttp.readyState == 4 && xhttp.status != 200) {
+
       console.log("There was an error with the input.");
+    
     }
   };
   //Send the request and wait
   xhttp.send(JSON.stringify(data));
+
   location.reload(true);
+
 });

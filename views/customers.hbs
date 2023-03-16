@@ -1,6 +1,5 @@
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="./js/delete_customer.js"></script>
 </head>
   
 
@@ -10,7 +9,7 @@
 <div class="flex-container">
 
   <div>
-    <table>
+    <table id="customer-table">
 
       <thead>
         <h3>Customers sorted by last name.</h3>
@@ -31,18 +30,21 @@
             <td>{{this.last}}</td>
             <td>{{this.first}}</td>
             <td>{{this.email}}</td>
-            <td><button onclick="deleteCustomer({{this.id}})">Delete</button></td>
+            <td><button id="delete" class="delete" onclick="deleteCustomer({{this.id}})">Delete</button></td>
           </tr>
         {{/each}}
       </tbody>
     </table>
+
+    <script src="./js/delete_customer.js"></script>
+    
   </div>
 
    <div>
     <h3>Search for a customer.</h3>
 
     <form id="search-customer-html" method="GET" action="/customers">
-      <p>Search by last name using the field below. Partial last names are able
+      <p>Search by <b>last name</b> using the field below. Partial last names are able
         to be searched. To reset the table, click the reset button below.</p>
 
       <label for="input-lastName" class="col-40">Search by last name: </label>

@@ -1,6 +1,5 @@
 <header>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script src="./js/delete_book.js"></script>
 </header>
 
 <h2>books</h2>
@@ -25,23 +24,23 @@
 
         {{#each data}}
           <tr>
-            <td id="book-id">{{this.id}}</td>
+            <td>{{this.id}}</td>
             <td>{{this.title}}</td>
             <td>{{this.author}}</td>
             <td>{{this.quantity}}</td>
             <td>{{this.price}}</td>
-            <td><button onclick="deleteBook({{this.id}})">Delete</button></td>
+            <td><button id="delete" class="delete" onclick="deleteBook({{this.id}})">Delete</button></td>
           </tr>
         {{/each}}
       </tbody>
     </table>
+    <script src="./js/delete_book.js"></script>
   </div>
 
   <div>
     <h3>Search for a book.</h3>
-
     <form id="search-book-html" method="GET" action="/books">
-      <p>Search by book title using the field below. Partial titles are able to
+      <p>Search by <b>book title</b> using the field below. Partial titles are able to
         be searched. To reset the table, click the reset button below.</p>
       <label for="input-title-html-search" class="col-40">Search by title: </label>
       <br />
@@ -65,15 +64,6 @@
       <label for="input-title" class="col-40">Title: </label>
       <input type="text" name="input-title" id="input-title" required />
       <br />
-
-     {{!-- <label for="select-author">Author: </label>
-      <select name="select-author" id="select-author">
-        <option value=""></option>
-        {{#each dropDown}}
-          <option value="{{this.id}}" name="select-author">{{this.author}}</option>
-        {{/each}}
-      </select>
-      <br /> --}}
 
       <label for="input-quantity" class="col-40">Quantity: </label>
       <input
@@ -99,6 +89,60 @@
       <button class="submit">Submit</button>
 
     </form>
+  </div>
+
+   <div>
+
+    <h3>Update a book.</h3>
+    
+    <form id="update-book-form">
+      <p>Use the form below to update a book.</p>
+
+      <label for="select-book" class="col-40">Book to update: </label>
+      <select name="select-book" id="select-book" onchange="updateFormValues()">
+        <option value=""></option>
+        {{#each dropDown}}
+          <option value="{{this.id}},{{this.title}},{{this.quantity}},{{this.price}}">{{this.title}}</option>
+        {{/each}}
+      </select>
+      <br />
+
+      <label for="input-newTitle" class="col-40">Title: </label>
+      <input
+        type="text"
+        name="input-newTitle"
+        id="input-newTitle"
+        required
+      />
+      <br />
+
+      <label for="input-newQuantity" class="col-40">Quantity: </label>
+      <input
+        type="number"
+        min="1"
+        name="input-newQuantity"
+        id="input-newQuantity"
+        required
+      />
+      <br />
+
+      <label for="input-newPrice" class="col-40">Price: </label>
+      <input
+        type="number"
+        min="1"
+        step="any"
+        name="input-newPrice"
+        id="input-newPrice"
+        required
+      />
+      <br />
+
+
+      <button class="submit">Submit</button>
+    </form>
+
+    <script src="./js/update_book.js"></script>
+
   </div>
 
 </div>

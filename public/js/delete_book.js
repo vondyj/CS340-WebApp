@@ -1,4 +1,3 @@
-
 function deleteBook(bookId) {
     let link = '/delete-book-ajax/';
     let data = {
@@ -11,11 +10,19 @@ function deleteBook(bookId) {
       data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
       success: (result) => {
-        location.reload(true);
+        
       }
-    
+
     });
 
-    location.reload(true);
+
 
   }
+
+$("#book-table").on('click', '.delete', function(e) {
+    var whichtr = $(this).closest("tr");
+
+    whichtr.remove();      
+});
+
+// need to figure out how to update dropdown menu

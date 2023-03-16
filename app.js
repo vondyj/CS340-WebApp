@@ -128,7 +128,7 @@ app.put("/put-author-ajax", function (req, res, next) {
 
 app.get("/books", function (req, res) {
   let query1;
-  let query2 = `SELECT authors.authorId AS id, CONCAT(authors.lastName, ', ', authors.firstName, IFNULL(CONCAT(' ', authors.middleName), "")) AS author, authors.firstName, authors.middleName, authors.lastName FROM authors ORDER BY authors.lastName;`;
+  let query2 = "SELECT books.bookId AS id, books.title, books.stockQuantity AS quantity, books.unitPrice AS price FROM books ORDER BY books.title"
 
   // If there is no query string, we just perform a basic SELECT
   if (req.query.title === undefined) {
@@ -187,6 +187,29 @@ app.delete("/delete-book-ajax/", function (req, res, next) {
       console.log(error);
       res.sendStatus(400);
     }
+  });
+});
+
+app.put("/put-book-ajax", function (req, res, next) {
+  let data = req.body;
+
+  let title = data.title;
+  let quantity = data.quantity;
+  let price = data.price;
+  let id = data.id;
+
+  let queryUpdateBook = `UPDATE books SET books.title = '${title}', books.stockQuantity = '${quantity}', books.unitPrice = '${price}' WHERE books.bookId = '${id}';`;
+
+  // Run the 1st query
+  db.pool.query(queryUpdateBook, function (error, rows, fields) {
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    }
+
+    // If there was no error, we run our second query and return that data so we can use it to update the people's
+    // table on the front-end
   });
 });
 
@@ -283,13 +306,12 @@ app.put("/put-customer-ajax", function (req, res, next) {
 // purchases -------------------------------------------------------------------------------------------------------
 
 app.get("/purchases", function (req, res) {
-  let query1 =
-    "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName,', ', customers.firstName) AS customer, CONCAT(staff.lastName,', ', staff.firstName) AS 'staff', books.title, purchaseBookDetails.quantity AS 'copies', CONCAT('$', (books.unitPrice * purchaseBookDetails.quantity)) AS total FROM purchases LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId LEFT JOIN customers ON purchases.FK_customers_customerId = customers.customerId LEFT JOIN purchaseBookDetails ON purchases.purchaseId = purchaseBookDetails.FK_purchases_purchaseId LEFT JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId ORDER BY purchases.purchaseDate ASC;";
-  let query2 =
-    "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM customers ORDER BY customers.lastName;";
-  let query3 =
-    "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS staff FROM staff ORDER BY staff.lastName;";
-
+  
+  let query1 = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName,', ', customers.firstName) AS customer, CONCAT(staff.lastName,', ', staff.firstName) AS 'staff', books.title, purchaseBookDetails.quantity AS 'copies', CONCAT('$', (books.unitPrice * purchaseBookDetails.quantity)) AS total FROM purchases LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId LEFT JOIN customers ON purchases.FK_customers_customerId = customers.customerId LEFT JOIN purchaseBookDetails ON purchases.purchaseId = purchaseBookDetails.FK_purchases_purchaseId LEFT JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId ORDER BY purchases.purchaseDate ASC;";
+  let query2 = "SELECT customers.customerId AS id, CONCAT(customers.lastName, ', ', customers.firstName) AS customer FROM customers ORDER BY customers.lastName;";
+  let query3 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS staff FROM staff ORDER BY staff.lastName;";
+  let query4 = "SELECT purchases.purchaseId AS id, CONCAT(customers.lastName,', ', customers.firstName) AS customerName, customers.customerId, staff.staffId, purchases.purchaseDate AS date FROM purchases JOIN customers ON purchases.FK_customers_customerId = customers.customerId JOIN staff ON purchases.FK_staff_staffId = staff.staffId ORDER BY purchases.purchaseDate;";
+  
   db.pool.query(query1, function (error, rows, fields) {
     // Execute the query
     let purchases = rows;
@@ -300,10 +322,17 @@ app.get("/purchases", function (req, res) {
       db.pool.query(query3, (error, rows, fields) => {
         let staff = rows;
 
-        return res.render("purchases", {
-          data: purchases,
-          dropDown1: customers,
-          dropDown2: staff,
+        db.pool.query(query4, (error, rows, fields) => {
+          
+          let updatePurchases = rows
+
+          return res.render("purchases", {
+            data: purchases,
+            dropDown1: customers,
+            dropDown2: staff,
+            dropDown3: updatePurchases
+
+          });
         });
       });
     });
@@ -355,12 +384,44 @@ app.delete("/delete-purchase-ajax/", function (req, res, next) {
   });
 });
 
+app.put("/put-purchase-ajax", function (req, res, next) {
+  let data = req.body;
+
+  let date = data.date;
+  let staff = data.staff;
+  let customer = data.customer;
+  let id = data.id;
+
+  let queryUpdateStaff = `UPDATE purchases SET purchases.purchaseDate = '${date}', purchases.FK_staff_staffId = '${staff}', purchases.FK_customers_customerId = '${customer}' WHERE purchases.purchaseId = ${id};`;
+
+  // Run the 1st query
+  db.pool.query(queryUpdateStaff, function (error, rows, fields) {
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    }
+
+  });
+});
+
 // staff -------------------------------------------------------------------------------------------------------
 
 app.get("/staff", function (req, res) {
   
-  let query1 = "SELECT staff.staffId AS id, staff.lastName AS last, staff.firstName AS first, staff.email AS email FROM staff ORDER BY staff.lastName ASC;";
+  let query1;
   let query2 = "SELECT staff.staffId AS id, CONCAT(staff.lastName, ', ', staff.firstName) AS staff, staff.firstName AS first, staff.lastName AS last, staff.email FROM staff ORDER BY staff.lastName;";
+
+  // If there is no query string, we just perform a basic SELECT
+  if (req.query.lastName === undefined) {
+    query1 = "SELECT staff.staffId AS id, staff.lastName AS last, staff.firstName AS first, staff.email AS email FROM staff ORDER BY staff.lastName ASC;";
+  }
+
+  // If there is a query string, we assume this is a search, and return desired results
+  else {
+    query1 = `SELECT staff.staffId AS id, staff.lastName AS last, staff.firstName AS first, staff.email AS email FROM staff WHERE staff.lastName LIKE "${req.query.lastName}%" ORDER BY staff.lastName ASC;`;
+  }
+
 
   db.pool.query(query1, function (error, rows, fields) {
     // Execute the query

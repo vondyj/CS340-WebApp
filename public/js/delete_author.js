@@ -11,15 +11,21 @@ function deleteAuthor(authorId) {
       data: JSON.stringify(data),
       contentType: "application/json; charset=utf-8",
       success: (result) => {
-        location.reload(true);
+
       }
     
     });
 
-    location.reload(true);
 
   }
 
+$("#author-table").on('click', '.delete', function(e) {
+    let whichtr = $(this).closest("tr");
+
+    whichtr.remove();      
+});
+
+// need to figure out how to update dropdown menu
 
 
       
