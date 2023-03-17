@@ -20,6 +20,7 @@
           <th>book id</th>
           <th>title</th>
           <th>quantity</th>
+          <th>line total</th>
           <th></th>
         </tr>
       </thead>
@@ -36,6 +37,7 @@
             <td>{{this.book_id}}</td>
             <td>{{this.title}}</td>
             <td>{{this.quantity}}</td>
+            <td>{{this.line_total}}</td>
             <td><button id="delete" class="delete" onclick="deletePurchaseBookDetail({{this.id}})">Delete</button></td>
           </tr>
         {{/each}}
