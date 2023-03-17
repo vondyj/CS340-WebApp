@@ -46,6 +46,24 @@
   </div>
 
   <div>
+    <h3>Search for a purchase.</h3>
+
+    <form id="search-purchase-html" method="GET" action="/purchases">
+      <p>Search by <b>date</b> using the field below. To reset the table, click the reset button below.</p>
+
+      <label for="input-lastName" class="col-40">Search by date: </label>
+      <br />
+
+      <input type="date" name="date" id="input-purchase-html-search" />
+      <br />
+
+      <button class="submit">Submit</button>
+      <a href="/purchases"><button>Reset</button></a>
+
+    </form>
+  </div>
+
+  <div>
     <h3>Add a new purchase.</h3>
 
     <form id="add-purchase-form" method="POST" action="/add-purchase-form">
