@@ -335,7 +335,7 @@ app.get("/purchases", function (req, res) {
   let queryPurchaseDropDown = "SELECT purchases.purchaseId AS id, CONCAT(customers.lastName,', ', customers.firstName) AS customerName, customers.customerId, staff.staffId, purchases.purchaseDate AS date FROM purchases LEFT JOIN customers ON purchases.FK_customers_customerId = customers.customerId LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId ORDER BY purchases.purchaseDate;";
   
   // no query string, perform a basic SELECT
-  if (req.query.date === '') {
+  if (req.query.date === undefined || req.query.date === '') {
     queryTable = "SELECT purchases.purchaseId AS id, purchases.purchaseDate AS date, CONCAT(customers.lastName,', ', customers.firstName) AS customer, CONCAT(staff.lastName,', ', staff.firstName) AS staff, SUM(purchaseBookDetails.quantity) AS number_sold, CONCAT('$', SUM(books.unitPrice * purchaseBookDetails.quantity)) AS order_total FROM purchases LEFT JOIN staff ON purchases.FK_staff_staffId = staff.staffId JOIN customers ON purchases.FK_customers_customerId = customers.customerId LEFT JOIN purchaseBookDetails ON purchases.purchaseId = purchaseBookDetails.FK_purchases_purchaseId LEFT JOIN books ON purchaseBookDetails.FK_books_bookId = books.bookId GROUP BY purchases.purchaseId ORDER BY purchases.purchaseDate ASC;";
   }
 
