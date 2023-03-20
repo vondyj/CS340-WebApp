@@ -1,3 +1,19 @@
+/* 
+
+.flex-nav - adapted  
+  W3Schools (3/1/23) 'CSS Flexbox'
+  https://www.w3schools.com/css/css3_flexbox.asp 
+
+nav, ul, li, li a, li a:hover - adapted 
+  W3Schools (3/1/23) 'CSS Horizontal Navigation Bar'
+  https://www.w3schools.com/css/css_navbar_horizontal.asp
+
+form, input, select, label, .col-40 - adapted
+  W3Schools (3/9/23) 'CSS Forms'
+  https://www.w3schools.com/css/css_form.
+
+*/
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap');
 
 /* main */
@@ -6,7 +22,15 @@ main {
   margin: 0 0 0 0;
   width: 100%;
   border: hidden;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 65px);
+}
+
+/* logo */
+
+.logo{
+  width: 500px;
+  margin-top: 35px;
+  margin-bottom: 15px;
 }
 
 /* flex */
@@ -17,8 +41,6 @@ main {
   flex-flow: row wrap;
   justify-content: center;
 }
-
-
 
 /* typography */
 
@@ -105,7 +127,7 @@ table, td, th {
   padding: 15px;
 }
 
-  tr:nth-child(even) {
+tr:nth-child(even) {
     background-color: #99CCCC;
 }
 
@@ -118,6 +140,7 @@ table {
   margin-bottom: 40px;
   margin-left: 40px;
   margin-right: 40px;
+  max-width: 825px;
 }
 
 /* form */
@@ -183,6 +206,12 @@ button, .submit, .update-submit {
   margin-top: 25px;
   margin-right: 10px;
   margin-bottom: 16px;
+}
+
+/* links */
+
+a {
+  font-weight: 600;
 }
 
 /* footer */

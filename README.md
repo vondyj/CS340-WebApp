@@ -1,15 +1,32 @@
 # CS340-WebApp
 
-Citations
+CITATIONS
 
-Overall Structure - adapted  
-  George Kochera, Cortona1, Michael Curry, dmgs11 (2/28/23 - 3/9/23 )'nodejs-starter-app'
+app.js 
+
+SETUP, ROUTES, LISTENER - adapted  
+  Oregon State University, CS340: Introduction to Databases - 'nodejs-starter-app'
+  George Kochera, Cortona1, Michael Curry, dmgs11 (2/28/23 - 3/19/23 )
   https://github.com/osu-cs340-ecampus/nodejs-starter-app
 
-https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX/Getting_Started
+
+main.hbs, authors.hbs, authorsBooks.hbs, books.hbs, customers.hbs, index.hbs, purchaseBookDetails.hbs, purchases.hbs, staff.hbs
+
+Overall structure - adapted
+  Oregon State University, CS340: Introduction to Databases - 'nodejs-starter-app'
+  George Kochera, Cortona1, Michael Curry, dmgs11 (2/28/23 - 3/19/23 )
+  https://github.com/osu-cs340-ecampus/nodejs-starter-app
 
 
-CSS 
+delete_author.js, delete_authorBook.js, delete_book.js, delete_customer.js, delete_purchase.js, delete_purchaseBookDetail.js, delete_staff, update_author.js, update_book.js, update_customer.js, update_purchase.js, update_staff.js
+
+Overall structure - adapted
+  Oregon State University, CS340: Introduction to Databases - 'nodejs-starter-app'
+  George Kochera, Cortona1, Michael Curry, dmgs11 (2/28/23 - 3/19/23 )
+  https://github.com/osu-cs340-ecampus/nodejs-starter-app
+
+
+styles.css 
 
 .flex-nav - adapted  
   W3Schools (3/1/23) 'CSS Flexbox'
